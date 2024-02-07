@@ -2,6 +2,10 @@ header{
     background-color: #2D1674;
 }
 
+body, h1, h2, h3, h4, h5, h6, p, li, a, span {
+    font-family: "Josefin Sans", sans-serif;
+}
+
 .searchInput{
     margin: 0;
     border-radius: 50px;
@@ -293,4 +297,84 @@ font-size: 20px;
 margin-bottom: 20px;
 padding-right: 40px;
 line-height: 1.5;
+}
+
+/*Grid-Contaniner*/
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 50px;
+}
+
+.grid-container figure img {
+width: 100%; /* Adjusted to fill the figure */
+height: 300px; /* Fixed height, or use 'auto' for natural aspect ratio */
+object-fit: cover; /* Ensures the image covers the area, potentially cropping it */
+border-radius: 20px; /* Rounded corners */
+}
+
+.grid-container figure figcaption {
+    color: #7a4b7f; /* Change this to match your theme's text color */
+    font-family: "Josefin Sans", sans-serif;
+    text-align: center; /* Center the text */
+    line-height: 0.5; /* Adjust this value as needed */
+    font-size: medium;
+    margin-top: 10px;
+}
+
+.grid-container h1 {
+color: black;
+font-size: 30px;
+font-family: "Josefin Sans", sans-serif;
+text-align: center;
+}
+
+.grid-container p {
+color: #211744;
+font-size: 17.5px;
+font-family: "Josefin Sans", sans-serif;
+text-align: center;
+line-height: 1;
+}
+
+.grid-container figure button {
+display: block; /* Make buttons block to fill container */
+margin: auto; /* Center button horizontally */
+padding: 10px 20px; /* Button padding */
+background-color: #7a4b7f; /* Button color */
+color: white; /* Button text color */
+border: none; /* Remove border */
+cursor: pointer; /* Cursor pointer on hover */
+border-radius: 5px; /* Rounded corners for the button */
+}
+
+.grid-container figure button:hover {
+background-color: #5a3d63; /* Darker shade on hover */
+}
+
+/*PaymentBox*/
+
+#paymentbox {
+    margin-bottom: 5%;
+    height: fit-content;
+    background-color: #fefbf4;
+    width: 1000px;
+    height: 900px;
+    border-radius: 20px;
+    overflow: hidden;
+    border-style: solid;
+    border-color: #dbc48f;
+    border-width: 5px;
+    display: flex; /* Add this line */
+    flex-direction: column; /* Add this line */
+    align-items: center;
+    align-self: center;
+    justify-content: center; /* Optional: This will center the items vertically */
+}
+
+#paymentbox input::placeholder{
+color: #fefbf4;
+font-size: 15px; /* Adjust this value to your liking */
+font-family: "Josefin Sans", sans-serif;
 }

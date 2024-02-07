@@ -3,23 +3,29 @@
 <div class="propBackground">
     <% if (user && user.type === 'guest') { %>
         <!-- Display only for guests -->
-        <h3 class="p-2" style="text-align: center;">Dear Guest, Welcome to Vacay</h3>
-        <div class="d-flex flex-wrap justify-content-start">
+        <!--h3 class="p-2" style="text-align: center;">Dear Guest, Welcome to Vacay</h3>-->
+
+        <h1 style="font-size: 50px; text-align: center;">Book Unique Homes All Over Malaysia.</h1>
+        <h2 style="font-size: 30px; margin-top: 0%; text-align: center;">Faster, Easier, Reliable</h2>
+
+        <div class="grid-container">
             <% propertyHosts.forEach(propertyHost => { %>
-                <div class="showBorder p-3">
+                <figure>
                     <% if (propertyHost.images && propertyHost.images.length > 0) { %>
-                        <img class="small-image" src="<%= 'data:' + propertyHost.images[0].contentType + ';base64,' + propertyHost.images[0].data.toString('base64') %>" alt="Property Image">
+                        <img src="<%= 'data:' + propertyHost.images[0].contentType + ';base64,' + propertyHost.images[0].data.toString('base64') %>" alt="Property Image" style="width: 100%;">
                     <% } else { %>
-                        <img class="small-image" src="placeholder-image-url.jpg" alt="Placeholder Image">
+                        <img src="placeholder-image-url.jpg" alt="Placeholder Image" style="width: 100%;">
                     <% } %>
-                    <p><strong><%= propertyHost.name %></strong></p>
-                    <p><strong>Price: RM</strong> <%= propertyHost.price %> /Night</p>
-                    <p><strong>Number of Guest: </strong> <%= propertyHost.guestNum %></p>
+                    <figcaption>
+                        <h1><%= propertyHost.name %></h1>
+                        <p><%= propertyHost.address %></p> <!-- Assuming you have a location field -->
+                        <p><%= propertyHost.guestNum %> Guest</p>
+                        <p>RM<%= propertyHost.price %>/night</p>
+                    </figcaption>
                     <form action="/propertyView/<%= propertyHost._id %>" method="GET">
-                        <button class="viewBtn">View</button>
+                        <button>View</button>
                     </form>
-                    
-                </div>
+                </figure>
             <% }); %>
         </div>
     <% } else { %>
