@@ -1,0 +1,45 @@
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Welcome | Vacay' }) %>
+<% } else { %>
+    <%- include('header', { pageTitle: 'Welcome | Vacay' }) %>
+<% } %>
+
+<div class="propBackground">
+    <div id="info">
+        <h1>Welcome to Vacay</h1>
+        <h2 style="font-size: 30px;">Easier, Faster, Reliable</h2>
+        <hr>
+        <section>
+            <h2>Who We Are</h2>
+            <p>Vacay is more than just a travel company. We are a team of passionate travel enthusiasts
+                committed to revolutionizing the travel experience. Our mission is to make your vacation
+                planning easier, faster, and utterly reliable.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>What We Offer</h2>
+            <p>At Vacay, we provide a seamless and personalized travel planning experience. From
+                luxurious getaways to budget-friendly adventures, our platform offers a diverse range of
+                options to cater to all your travel needs. Our intuitive interface ensures that planning
+                your next vacation is hassle-free and enjoyable.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Why Choose Us</h2>
+            <p>Choosing Vacay means opting for a travel partner that values your time and preferences.
+                We stand out in the travel industry for our:
+            <ul style="text-align: left; padding-left: 30%; padding-right: 20%;">
+                <li><strong>Ease of Use:</strong> Our user-friendly platform simplifies your travel
+                    planning process.</li>
+                <li><strong>Speed:</strong> With efficient tools and resources, we ensure quick and
+                    timely responses to all your travel inquiries.</li>
+                <li><strong>Reliability:</strong> Our dedicated team works tirelessly to ensure that
+                    every aspect of your vacation is perfectly arranged, giving you peace of mind.</li>
+            </ul>
+            </p>
+        </section>
+        <hr>
+    </div>
+</div>
+
+<%- include('footer') %>

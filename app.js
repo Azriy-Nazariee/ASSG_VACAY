@@ -586,6 +586,98 @@ app.get("/logout", function (req, res) {
   });
 });
 
+app.get("/aboutUs", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("aboutUs", { userRole: userRole });
+});
+
+app.get("/help", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("help", { userRole: userRole });
+});
+
+app.get("/policies", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("policies", { userRole: userRole });
+});
+
+app.get("/termsCondition", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("termsCondition", { userRole: userRole });
+});
+
+app.get("/whyHost", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("whyHost", { userRole: userRole });
+});
+
+app.get("/responsibleHost", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("responsibleHost", { userRole: userRole });
+});
+
+app.get("/community", function (req, res) {
+  let userRole = req.session.user?.type || "unknown"; // Default value
+
+  if (userRole === "unknown") {
+    console.log('User role not found in session, redirecting to login page');
+    res.redirect('/login');
+    return; // Stop execution to prevent further code from running
+  }
+
+  // Always passing userRole to the template, ensuring it has a value
+  res.render("community", { userRole: userRole });
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

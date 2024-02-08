@@ -1,0 +1,45 @@
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Welcome | Vacay' }) %>
+<% } else { %>
+    <%- include('header', { pageTitle: 'Welcome | Vacay' }) %>
+<% } %>
+
+<div class="propBackground">
+    <div id="info">
+        <h1>Becoming a Responsible Host</h1>
+        <h2 style="font-size: 30px;">Commit to Excellence in Hosting</h2>
+        <hr>
+        <section>
+            <h2>Understand and Comply with Local Regulations</h2>
+            <p>As a responsible host, it's crucial to be aware of and adhere to the local laws and regulations regarding short-term rentals in your area. This includes obtaining necessary permits, paying appropriate taxes, and following health and safety standards.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Maintain Safety and Cleanliness</h2>
+            <p>Ensure your property meets high standards of safety and cleanliness. Regular maintenance checks, professional cleaning services, and clear safety guidelines for guests are essential practices for responsible hosting.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Provide Accurate and Complete Information</h2>
+            <p>Transparency is key. Offer detailed, accurate descriptions of your space, including amenities and any potential limitations. Honest communication helps set the right expectations and improves guest experiences.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Be Responsive and Supportive</h2>
+            <p>Good communication is the backbone of effective hosting. Respond promptly to inquiries and provide assistance whenever your guests need it. Being available and supportive enhances guest satisfaction and trust.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Respect Privacy and Boundaries</h2>
+            <p>While being helpful and accessible, respect your guests' privacy and personal space. Ensure a balance between being available for assistance and giving guests their space to enjoy their stay uninterrupted.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Commit to Non-Discrimination</h2>
+            <p>Embrace diversity and inclusivity. As a Vacay host, commit to a policy of non-discrimination, ensuring all guests are treated with respect and dignity, irrespective of their background or identity.</p>
+        </section>
+        <hr>
+    </div>
+</div>
+
+<%- include('footer') %>

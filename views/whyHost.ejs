@@ -1,0 +1,40 @@
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Welcome | Vacay' }) %>
+<% } else { %>
+    <%- include('header', { pageTitle: 'Welcome | Vacay' }) %>
+<% } %>
+
+<div class="propBackground">
+    <div id="info">
+        <h1>Why Host with Vacay?</h1>
+        <h2 style="font-size: 30px;">Join Our Community of Trusted Hosts</h2>
+        <hr>
+        <section>
+            <h2>Expand Your Reach</h2>
+            <p>Become a Vacay host and gain access to a vast network of travelers from around the globe. Our platform ensures your property gets maximum visibility, connecting you with guests seeking memorable experiences.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Earn Extra Income</h2>
+            <p>Hosting on Vacay provides you with a fantastic opportunity to earn extra income. With our flexible listing options, you can rent out your space when it's convenient for you, turning your vacant property or spare room into a profitable asset.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Support and Security</h2>
+            <p>Your peace of mind is paramount. Vacay offers robust support and security measures to ensure safe transactions and help manage bookings. We work tirelessly to create a safe, trustworthy environment for both hosts and guests.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Easy Management</h2>
+            <p>Our intuitive host dashboard makes managing your listings, bookings, and interactions with guests effortless. We provide you with the tools and insights you need to optimize your hosting experience and guest satisfaction.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Community Connection</h2>
+            <p>As a Vacay host, you're more than just a property owner – you're part of a community. Connect with other hosts, share experiences, and learn best practices to enhance your hosting skills and provide exceptional experiences to your guests.</p>
+        </section>
+        <hr>
+    </div>
+</div>  
+
+<%- include('footer') %>

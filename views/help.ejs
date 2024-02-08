@@ -1,0 +1,35 @@
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Welcome | Vacay' }) %>
+<% } else { %>
+    <%- include('header', { pageTitle: 'Welcome | Vacay' }) %>
+<% } %>
+
+<div class="propBackground">
+    <div id="info">
+        <h1>Need Assistance?</h1>
+        <h2 style="font-size: 30px;">We're Here to Help</h2>
+        <hr>
+        <section>
+            <h2>Getting Started</h2>
+            <p>Embarking on your travel journey with Vacay is simple. Whether you're a first-time visitor or a seasoned traveler, our platform is designed to guide you effortlessly. If you need help with navigating our website or have questions about getting started, our comprehensive FAQs and user guides are here to assist you.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Booking Your Trip</h2>
+            <p>Ready to book your next adventure? Our booking process is streamlined for your convenience. From selecting your destination to finalizing your itinerary, we've made each step user-friendly. However, if you encounter any issues or have specific requirements, our customer support team is readily available to provide personalized assistance.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>After Your Booking</h2>
+            <p>Once you've booked your trip with Vacay, our support doesn't stop there. For any post-booking inquiries, whether it's about travel changes, additional services, or special requests, our dedicated team is on hand to ensure your travel experience is smooth and enjoyable. </p>
+        </section>
+        <hr>
+        <section>
+            <h2>Additional Support</h2>
+            <p>At Vacay, we strive to cover all your travel needs. If you have questions that haven't been addressed in our FAQs, or require further information, our expert support team is available via phone, email, or live chat. We're committed to providing timely and effective solutions to ensure your travel experience is nothing short of perfect.</p>
+        </section>
+        <hr>
+    </div>
+</div>
+
+<%- include('footer') %>

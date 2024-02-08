@@ -1,0 +1,41 @@
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Welcome | Vacay' }) %>
+<% } else { %>
+    <%- include('header', { pageTitle: 'Welcome | Vacay' }) %>
+<% } %>
+
+<div class="propBackground">
+    <div id="info">
+    
+        <h1>Join Our Community Center</h1>
+        <h2 style="font-size: 30px;">Connect, Learn, and Grow Together</h2>
+        <hr>
+        <section>
+            <h2>Engage with Fellow Travelers and Hosts</h2>
+            <p>Our Community Center is a vibrant space where travelers and hosts from around the world come together to share experiences, tips, and stories. It’s a place to connect with like-minded individuals who share your passion for travel and hospitality.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Access Exclusive Resources and Insights</h2>
+            <p>As a member of our community, gain access to a wealth of resources including travel guides, hosting tips, market insights, and exclusive content created by travel experts and seasoned hosts. These resources are designed to enhance your travel or hosting experience.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Participate in Events and Webinars</h2>
+            <p>Join our regular events, workshops, and webinars led by industry professionals. These events are great opportunities for learning, networking, and staying updated on the latest trends in travel and hospitality.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Get Support and Feedback</h2>
+            <p>Our community is a supportive environment where you can ask questions, seek advice, or get feedback on your travel plans or hosting practices. Engage in meaningful conversations and get support from our community members and moderators.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Contribute to a Sustainable Future</h2>
+            <p>We believe in responsible and sustainable travel. By joining our community, you become part of a movement that prioritizes eco-friendly practices and supports local communities, helping to create a positive impact through travel.</p>
+        </section>
+        <hr>
+    </div>
+</div>
+
+<%- include('footer') %>

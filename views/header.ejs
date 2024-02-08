@@ -6,20 +6,24 @@
     <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Welcome to Vacay' %></title>
     <link rel="stylesheet" href="/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header class="d-flex justify-content-between align-items-center" style="height: 100px;">
-        <div class="d-flex" style="margin-left: 20px; margin-left: 50px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                class="logo bi bi-house-heart-fill" viewBox="0 0 16 16">
-                <path
-                    d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.707L8 2.207 1.354 8.853a.5.5 0 1 1-.708-.707z" />
-                <path
-                    d="m14 9.293-6-6-6 6V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5zm-6-.811c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.691 0-5.018" />
-            </svg>
-            <h3 class="logoText">VACAY</h3>
+        <div style="margin-left: 20px; margin-left: 50px;">
+            <a href="/mainView" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                    class="logo bi bi-house-heart-fill" style="margin: 0; padding: 0;" viewBox="0 0 16 16">
+                    <path
+                        d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.707L8 2.207 1.354 8.853a.5.5 0 1 1-.708-.707z" />
+                    <path
+                        d="m14 9.293-6-6-6 6V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5zm-6-.811c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.691 0-5.018" />
+                </svg>
+                <h3 class="logoText ml-2" style="margin: 0; padding: 0;">VACAY</h3>
+            </a>
         </div>
 
         <div>

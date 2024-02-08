@@ -1,33 +1,37 @@
 <%- include('headerHost', { pageTitle: 'Property List | Vacay' }) %>
 
-<div class="profileBackground d-flex flex-column">
-    <h3>Property List</h3>
+<div class="propBackground d-flex flex-column">
+    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 0;">Property List</h3>
 
     <% propertyHosts.forEach(propertyHost => { %>
-        <div class="propList d-flex justify-content-between m-3 p-4 align-items-center">
-            <div>
+        <div class="propList d-flex m-3 p-4 align-items-stretch row" style="background-color: #fefbf4; border: solid #dbc48f; border-radius: 20px;">
+            <div class="col-md-4 d-flex align-items-center" style="padding: 0; height:100%">
                 <% if (propertyHost.images && propertyHost.images.length > 0 && propertyHost.images[0] && propertyHost.images[0].contentType && propertyHost.images[0].data) { %>
-                    <img src="data:<%= propertyHost.images[0].contentType %>;base64,<%= propertyHost.images[0].data.toString('base64') %>" alt="Property Image">
+                    <img src="data:<%= propertyHost.images[0].contentType %>;base64,<%= propertyHost.images[0].data.toString('base64') %>" alt="Property Image" class="img-fluid h-100" style="height:100%;border-radius: 20px; object-fit: cover; width: 100%;">
                 <% } else { %>
                     <p>No Image</p>
                 <% } %>                
             </div>
-            <div>
-                <p><%= propertyHost.name %></p>
-                <p>Total Guest: <%= propertyHost.guestNum %> Guest</p>
-                <p>Price: <%= propertyHost.price %>/Night</p>
-                <p>Location: <%= propertyHost.address %></p>
+            <div class="col-md-8 d-flex flex-column justify-content-center" style="padding-left: 20px;">
+                <h1><%= propertyHost.name %></h1>
+                <h3>Total Guest: <%= propertyHost.guestNum %> Guest</h3>
+                <h3>Price: <%= propertyHost.price %>/Night</h3>
+                <h3>Location: <%= propertyHost.address %></h3>
+                <form action="/removeproperty" method="POST" class="mt-2">
+                    <input type="hidden" name="propertyId" value="<%= propertyHost._id %>">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </form>
             </div>
-            <form action="/removeproperty" method="POST">
-                <input type="hidden" name="propertyId" value="<%= propertyHost._id %>">
-                <button class="removeBtn" type="submit">Remove</button>
-            </form>
         </div>
     <% }); %>
+    
 
-    <form action="/propertyform" method="GET">
-        <button>Add Property</button>
-    </form>
+    <div class="d-flex justify-content-center align-items-center" style="margin-top:50px;">
+        <form action="/propertyform" method="GET">
+            <button type="submit" class="viewBtn">Add Property</button>
+        </form>
+    </div>
+    
 </div>
 
 <%- include('footer') %>

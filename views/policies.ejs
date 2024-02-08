@@ -1,0 +1,35 @@
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Welcome | Vacay' }) %>
+<% } else { %>
+    <%- include('header', { pageTitle: 'Welcome | Vacay' }) %>
+<% } %>
+
+<div class="propBackground">
+    <div id="info">
+        <h1>Our Policies</h1>
+        <h2 style="font-size: 30px;">Your Peace of Mind Matters</h2>
+        <hr>
+        <section>
+            <h2>Booking Policy</h2>
+            <p>At Vacay, we aim to make your booking process as flexible and accommodating as possible. Our booking policy includes detailed information on payment methods, booking confirmation, and the steps to follow if you need to modify or cancel your reservation. We encourage you to review these details to understand the terms and conditions of your booking.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Cancellation and Refund Policy</h2>
+            <p>Understanding that plans can change, Vacay offers a transparent cancellation and refund policy. This section outlines the conditions under which cancellations and refunds are processed, including timelines and potential fees. We advise reviewing this policy to understand your rights and options should you need to cancel your trip.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Privacy Policy</h2>
+            <p>Your privacy is of utmost importance to us. Vacay's privacy policy covers how we collect, use, disclose, transfer, and store your information. This commitment to protecting your personal data ensures that your experience with us is secure and trustworthy.</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Terms and Conditions</h2>
+            <p>Our Terms and Conditions provide a comprehensive guide to the use of our services at Vacay. This includes user responsibilities, service descriptions, liability limitations, and other essential legal information. We recommend all our users to familiarize themselves with these terms to ensure a mutual understanding of the expectations and responsibilities in our service agreement.</p>
+        </section>
+        <hr>
+    </div>
+</div>
+
+<%- include('footer') %>

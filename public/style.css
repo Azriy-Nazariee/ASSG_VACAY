@@ -68,7 +68,7 @@ span {
 .propList {
     background-color: whitesmoke;
     border-color: #2D1674;
-    border-radius: 50px;
+    border-radius: 20px;
 }
 
 .removeBtn {
@@ -447,4 +447,34 @@ span {
 
 .form-control::placeholder {
     color: #fefbf4;
+}
+
+#info{
+    font-family: "Josefin Sans", sans-serif;
+    text-align: justify;
+    margin-top: 50px;
+    justify-content: center;
+    text-align: center; 
+    padding-left: 20%; 
+    padding-right: 20%;
+    padding-bottom: 50px;
+}
+
+#info h1{
+font-size: 50px;
+}
+
+#info h2{
+font-size: 40px;
+}
+
+#info p, li{
+font-size: 20px;
+line-height: 1.5;
+}
+
+#info hr{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-right: solid #7a4b7f;
 }
