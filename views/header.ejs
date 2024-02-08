@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to Vacay</title>
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Welcome to Vacay' %></title>
     <link rel="stylesheet" href="/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
 
@@ -11,7 +11,7 @@
 
 <body>
     <header class="d-flex justify-content-between align-items-center" style="height: 100px;">
-        <div class="d-flex" style="margin-left: 20px;">
+        <div class="d-flex" style="margin-left: 20px; margin-left: 50px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                 class="logo bi bi-house-heart-fill" viewBox="0 0 16 16">
                 <path
@@ -43,7 +43,7 @@
         </div>
 
         <form action="/settingsGuest" method="GET">
-            <button class="profileBtn" style="margin-right: 20px;">
+            <button class="profileBtn" style="margin-right: 50px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                     class="logo bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />

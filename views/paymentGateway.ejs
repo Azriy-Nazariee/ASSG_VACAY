@@ -1,47 +1,163 @@
-<%- include('header') %>
+<%- include('header', { pageTitle: 'Payment Gateway | Vacay' }) %>
 
-<div class="profileBackground d-flex flex-column justify-content-center align-items-center">
-    <h1>Vacay Payment Gateway</h1>
-    <div class="payBorder p-5 d-flex flex-column align-items-center">
-        <div class="d-flex justify-content-between">
-            <div class="p-5 m-5 my-0">
-                <div class="d-flex align-items-center">
-                    <div class="mr-3">
-                        <p>Check- In:</p>
-                        <div class="payField p-2 m-2">
-                            <p class="text-center mb-0"><%= booking.checkin.toDateString() %></p>
-                        </div>
+    <div class="propBackground d-flex flex-column justify-content-center align-items-center">
+        <h1 style="text-align: center;">Just One Step Closer To Your
+            Dream Staycation!</h1>
+        <h2 style="text-align: center;"> Just Fill In Your Details and Pay The Amount Due. </br>As
+                Simple As That.</h2>
+        <div id="paymentbox" class="container mt-3">
+            <h1 style="font-size: 50px; margin-bottom: 20px; text-align: center;">Your Booking Summary</h1>
+            <div class="row" style="margin-bottom: 20px;">
+                <!-- Left side: Booking Details -->
+                <div class="col-md-6 d-flex flex-column justify-content-between">
+                    <div class="container mt-3"> <!-- Container for some margin -->
+                            <div class="col-12"> <!-- Adjusts for medium devices and up, you can change the size -->
+
+                                <!-- Guest Name -->
+                                <div class="form-group">
+                                    <h3>Guess Name</h3>
+                                    <input type="text" class="form-control" id="Name" name="Name"
+                                        placeholder="Your Name" value="<%= booking.guestName %>">
+                                </div>
+
+                                <!-- Dates -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <h3>Check-In Date</h3>
+                                            <input type="text" class="form-control" id="checkin" name="checkin"
+                                                value="<%= booking.checkin.toDateString() %>" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <h3>Check-Out Date</h3>
+                                            <input type="text" class="form-control" id="checkout" name="checkout"
+                                                value="<%= booking.checkout.toDateString() %>" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Number of Guests -->
+                                <div class="form-group">
+                                    <h3>Number of Guests</h3>
+                                    <input type="text" class="form-control" id="guestNum" name="guestNum"
+                                        value="<%= booking.guestNum %>" readonly>
+                                </div>
+
+                                <!-- Bank Account Number -->
+                                <div class="form-group">
+                                    <h3>Bank Account Number</h3>
+                                    <input type="text" class="form-control" id="accnum" name="bankNo"
+                                        placeholder="Your Account Number">
+                                </div>
+                            </div>
                     </div>
-                    <div>
-                        <p>Check-Out:</p>
-                        <div class="payField p-2 m-2">
-                            <p class="text-center mb-0"><%= booking.checkout.toDateString() %></p>
+                </div>
+
+                <!-- Right side: Property Details and Bank Selection -->
+                <div class="col-md-6 d-flex flex-column justify-content-between">
+                    <div class="container mt-3"> <!-- Container for some margin -->
+                        <div class="row justify-content-center"> <!-- Centers the content horizontally -->
+                            <div class="col-12"> <!-- Adjusts for medium devices and up, you can change the size -->
+                                <!-- Property Name and Image -->
+                                <div class="form-group">
+                                    <h3>
+                                        <%= property.name %>
+                                    </h3>
+                                    <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>"
+                                        alt="Property Image" style="width: 100%; height: auto; border-radius: 20px;">
+                                </div>
+
+                                <!-- Bank Selection Form -->
+                                <div class="form-group">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="bankname">
+                                                <h3>Bank Name</h3>
+                                            </label>
+                                            <select id="bankname" name="bankname" class="form-control">
+                                                <option value="Affin Bank Berhad">Affin Bank Berhad</option>
+                                                <option value="Agrobank">Agrobank</option>
+                                                <option
+                                                    value="Al Rajhi Banking & Investment Corporation (Malaysia) Berhad">
+                                                    Al Rajhi Banking
+                                                    & Investment Corporation (Malaysia) Berhad</option>
+                                                <option value="Alliance Bank Malaysia Berhad">Alliance Bank Malaysia
+                                                    Berhad</option>
+                                                <option value="AmBank (M) Berhad">AmBank (M) Berhad</option>
+                                                <option value="Bangkok Bank Berhad">Bangkok Bank Berhad</option>
+                                                <option value="Bank Islam Malaysia Berhad">Bank Islam Malaysia Berhad
+                                                </option>
+                                                <option value="Bank Kerjasama Rakyat Malaysia">Bank Kerjasama Rakyam
+                                                    Malaysia</option>
+                                                <option value="Bank Muamalat Malaysia Berhad">Bank Muamalat Malaysia
+                                                    Berhad</option>
+                                                <option value="Bank of America Malaysia Berhad">Bank of America Malaysia
+                                                    Berhad</option>
+                                                <option value="Bank of China (Malaysia) Berhad">Bank of China (Malaysia)
+                                                    Berhad</option>
+                                                <option value="Bank of Tokyo-Mitsubishi UFJ (Malaysia) Bhd">Bank of
+                                                    Tokyo-Mitsubishi UFJ
+                                                    (Malaysia) Bhd</option>
+                                                <option value="Bank Simpanan Nasional">Bank Simpanan Nasional</option>
+                                                <option value="BNP Paribas Malaysia Berhad">BNP Paribas Malaysia Berhad
+                                                </option>
+                                                <option value="China Construction Bank Malaysia Berhad">China
+                                                    Construction Bank Malaysia
+                                                    Berhad</option>
+                                                <option value="CIMB Bank Berhad">CIMB Bank Berhad</option>
+                                                <option value="Citibank Berhad">Citibank Berhad</option>
+                                                <option value="Deutsche Bank (Malaysia) Berhad">Deutsche Bank (Malaysia)
+                                                    Berhad</option>
+                                                <option value="Hong Leong Bank Berhad">Hong Leong Bank Berhad</option>
+                                                <option value="HSBC Bank Malaysia Berhad">HSBC Bank Malaysia Berhad
+                                                </option>
+                                                <option
+                                                    value="Industrial and Commercial Bank of China (Malaysia) Berhad">
+                                                    Industrial and
+                                                    Commercial Bank of China (Malaysia) Berhad</option>
+                                                <option value="J.P. Morgan Chase Bank Berhad">J.P. Morgan Chase Bank
+                                                    Berhad</option>
+                                                <option value="Kuwait Finance House (M) Berhad">Kuwait Finance House (M)
+                                                    Berhad</option>
+                                                <option value="Malayan Banking Berhad">Malayan Banking Berhad</option>
+                                                <option value="Mizuho Bank (Malaysia) Berhad">Mizuho Bank (Malaysia)
+                                                    Berhad</option>
+                                                <option value="OCBC Bank (Malaysia) Berhad">OCBC Bank (Malaysia) Berhad
+                                                </option>
+                                                <option value="Public Bank Berhad">Public Bank Berhad</option>
+                                                <option value="RHB Bank Berhad">RHB Bank Berhad</option>
+                                                <option value="Standard Chartered Bank Malaysia Berhad">Standard
+                                                    Chartered Bank Malaysia
+                                                    Berhad</option>
+                                                <option value="Sumitomo Mitsui Banking Corporation Malaysia Berhad">
+                                                    Sumitomo Mitsui Banking
+                                                    Corporation Malaysia Berhad</option>
+                                                <option value="United Overseas Bank (Malaysia) Berhad">United Overseas
+                                                    Bank (Malaysia)
+                                                    Berhad</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="payImage">
-                <!-- Display property image or any relevant content -->
-                <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>" alt="Property Image">
-            </div>
+
+            <h1> Total Price : RM<%= booking.totalPrice %>
+            </h1>
+            <form action="/paymentConfirmation" method="POST">
+                <input type="hidden" name="propertyId" value="<%= property._id %>">
+                <input type="hidden" name="bookingId" value="<%= booking._id %>">
+                <button type="submit"
+                    style="height: 60px; font-size: 20px; margin-bottom: 70px; color: white; background-color: #412f81; border-radius: 20px;">Pay
+                    Now!</button>
+            </form>
+            
         </div>
-        <form class="d-flex flex-column align-items-center" action="/paymentConfirmation" method="POST">
-            <div class="d-flex justify-content-between">
-                <div class="p-3 m-3">
-                    <p>Bank Account No. :</p>
-                    <input class="payField" type="text" placeholder="Enter Bank Account No." name="bankNo">
-                </div>
-                <div class="p-3 m-3">
-                    <p>Bank Name:</p>
-                    <input class="payField" type="text" placeholder="Enter Bank Name" name="bankName">
-                </div>
-            </div>
-            <h1>Total Price: RM<%= booking.totalPrice %></h1>
-            <input type="hidden" name="propertyId" value="<%= property._id %>">
-            <input type="hidden" name="bookingId" value="<%= booking._id %>">
-            <button class="payBtn" type="submit">Pay Booking</button>
-        </form>
     </div>
-</div>
 
 <%- include('footer') %>

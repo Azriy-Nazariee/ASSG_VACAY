@@ -44,6 +44,7 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
 .profileBackground{
     background-color: #CFAFCA;
     min-height: 100vh;
+    padding-top: 50px;
 }
 
 .showBorder{
@@ -357,11 +358,11 @@ background-color: #5a3d63; /* Darker shade on hover */
 /*PaymentBox*/
 
 #paymentbox {
+    padding-top: 50px;
     margin-bottom: 5%;
     height: fit-content;
     background-color: #fefbf4;
     width: 1000px;
-    height: 900px;
     border-radius: 20px;
     overflow: hidden;
     border-style: solid;
@@ -378,4 +379,18 @@ background-color: #5a3d63; /* Darker shade on hover */
 color: #fefbf4;
 font-size: 15px; /* Adjust this value to your liking */
 font-family: "Josefin Sans", sans-serif;
+text-align: center;
+}
+
+.form-control {
+    background-color: #A768A3;
+    color: #FEFBF4;
+    height: 65px;
+    border-radius: 25px;
+    text-align-last: center;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    text-align: center;
 }

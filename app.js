@@ -477,6 +477,7 @@ app.post("/bookingProp/:propertyId", async function (req, res) {
         phoneNum: req.session.user.phoneNum, // Assuming you store user's phone number in the session
         checkin: req.body.checkIn,
         checkout: req.body.checkOut,
+        guestNum: req.body.guestNum,
         totalPrice: calculateTotalPrice(
           req.body.checkIn,
           req.body.checkOut,

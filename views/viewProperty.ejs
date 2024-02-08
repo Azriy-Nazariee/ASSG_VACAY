@@ -1,46 +1,58 @@
 <%- include('header') %>
 
-<div style="padding-top: 30px; padding-left: 70px; font-size: 50px; margin-bottom: 0;">
-    <h1><%= property.name %> in <%= property.address %></h1>
-    <h3 style="padding-left: 5px; line-height: normal;"><%= property.guestNum %> Guests</h3>
-</div>
-
-<div id="propertyImages" style="display: flex; justify-content: space-around; margin-top: 20px;">
-    <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>" alt="Main Property Image" style="width: 50%; border-radius: 20px;">
-    
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 10px; width: 45%;">
-        <% for(let i = 1; i < property.images.length; i++) { %>
-            <div style="overflow: hidden;">
-                <img src="<%= 'data:' + property.images[i].contentType + ';base64,' + property.images[i].data.toString('base64') %>" alt="Property Image <%= i %>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
-            </div>
-        <% } %>
-    </div>
-</div>
-
-<div id="propertyDescription" style="display: flex; justify-content: space-around; margin-top: 20px;">
-    <div style="width:60%">
-        <h3>Description</h3>
-        <p><%= property.description %></p>
+    <div style="padding-top: 30px; padding-left: 70px; font-size: 50px; margin-bottom: 0;">
+        <h1>
+            <%= property.name %> in <%= property.address %>
+        </h1>
+        <h3 style="padding-left: 5px; line-height: normal;">
+            <%= property.guestNum %> Guests
+        </h3>
     </div>
 
-    <div class="bookBorder d-flex flex-column align-items-center p-3">
-            <h3>Price: RM<%= property.price %> </h3>
-            
+    <div id="propertyImages" style="display: flex; justify-content: space-around; margin-top: 20px;">
+        <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>"
+            alt="Main Property Image" style="width: 50%; border-radius: 20px;">
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 10px; width: 45%;">
+            <% for(let i=1; i < property.images.length; i++) { %>
+                <div style="overflow: hidden;">
+                    <img src="<%= 'data:' + property.images[i].contentType + ';base64,' + property.images[i].data.toString('base64') %>"
+                        alt="Property Image <%= i %>"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                </div>
+                <% } %>
+        </div>
+    </div>
+
+    <div id="propertyDescription" style="display: flex; justify-content: space-around; margin-top: 20px;">
+        <div style="width:60%">
+            <h3>Description</h3>
+            <p>
+                <%= property.description %>
+            </p>
+        </div>
+
+        <div class="bookBorder d-flex flex-column align-items-center p-3">
+            <h3>Price: RM<%= property.price %>
+            </h3>
+
             <form class="d-flex flex-column align-items-center" action="/bookingProp/<%= property._id %>" method="POST">
                 <div class="d-flex">
                     <div class="m-2">
                         <p>Check-In: </p>
-                        <input class="widgetField text-center" type="date" id="checkIn" name="checkIn" placeholder="Check-in" />
+                        <input class="widgetField text-center" type="date" id="checkIn" name="checkIn"
+                            placeholder="Check-in" />
                     </div>
                     <div class="m-2">
                         <p>Check-Out: </p>
-                        <input class="widgetField text-center" type="date" id="checkOut" name="checkOut" placeholder="Check-out" />
+                        <input class="widgetField text-center" type="date" id="checkOut" name="checkOut"
+                            placeholder="Check-out" />
                     </div>
                 </div>
-                <input class="widgetField" type="text" placeholder="Number of Guest" name="guestNum">    
+                <input class="widgetField" type="text" placeholder="Number of Guest" name="guestNum">
                 <input class="viewBtn" type="submit" value="Book">
             </form>
         </div>
-</div>
+    </div>
 
-<%- include('footer') %>
+    <%- include('footer') %>
