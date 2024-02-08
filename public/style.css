@@ -1,53 +1,63 @@
-header{
+header {
     background-color: #2D1674;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, li, a, span {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+a,
+span {
     font-family: "Josefin Sans", sans-serif;
 }
 
-.searchInput{
+.searchInput {
     margin: 0;
     border-radius: 50px;
 }
 
-.searchButton{
+.searchButton {
     border-radius: 50%;
 }
 
-.logo{
+.logo {
     color: #CFAFCA;
 }
 
-.logoText{
+.logoText {
     color: #CFAFCA
 }
 
-.profileBtn{
+.profileBtn {
     border-radius: 50px;
     background-color: #2D1674;
     border: 0;
 }
 
-.profileBorder{
+.profileBorder {
     background-color: whitesmoke;
     border-radius: 30px;
     padding: 10px;
 }
 
-.profileField{
+.profileField {
     background-color: #CFAFCA;
     border-radius: 25px;
     padding: 5px;
 }
 
-.profileBackground{
+.profileBackground {
     background-color: #CFAFCA;
     min-height: 100vh;
     padding-top: 50px;
 }
 
-.showBorder{
+.showBorder {
     border-radius: 25px;
     border: 3px solid black;
     width: 400px;
@@ -55,25 +65,25 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
     margin: 50px;
 }
 
-.propList{
+.propList {
     background-color: whitesmoke;
     border-color: #2D1674;
     border-radius: 50px;
 }
 
-.removeBtn{
+.removeBtn {
     border-radius: 50px;
     height: 25%;
     background-color: #CFAFCA;
 }
 
-.propBackground{
+.propBackground {
     background-color: #FBF1EF;
     min-height: 100vh;
     padding-top: 30px;
 }
 
-.settingBtn{
+.settingBtn {
     border: 2px solid;
     border-radius: 50px;
     border-color: #2D1674;
@@ -82,19 +92,20 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
     margin: 4px;
 }
 
-.addProp{
+.addProp {
     border-radius: 50px;
     padding: 3px;
     margin: 3px;
     width: 500px;
 }
 
-.addBorder{
+.addBorder {
     border: 3px solid;
     border-radius: 25px;
     padding: 5px;
 }
-.welcomeBtn{
+
+.welcomeBtn {
     border-radius: 25px;
     width: 200px;
     height: 50px;
@@ -102,7 +113,7 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
     color: #CFAFCA;
 }
 
-.welcomeBorder{
+.welcomeBorder {
     border: 3px solid;
     border-radius: 50px;
     background-color: #2D1674;
@@ -110,7 +121,7 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
     height: 400px;
 }
 
-.registerInp{
+.registerInp {
     color: #AD68A1;
     border: 0;
     border-radius: 50px;
@@ -123,30 +134,30 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
 .propList img {
     max-width: 300px;
     height: auto;
-    border-radius: 20px; 
+    border-radius: 20px;
 }
 
 .propList {
     background-color: whitesmoke;
     border-color: #2D1674;
     border-radius: 50px;
-    padding: 20px; 
+    padding: 20px;
 }
 
-.payBorder{
+.payBorder {
     background-color: #FBF1EF;
     border: 3px solid black;
     border-radius: 25px;
     width: 700px;
 }
 
-.payField{
+.payField {
     background-color: #CFAFCA;
     border-radius: 25px;
     border: 2px solid black;
 }
 
-.payBtn{
+.payBtn {
     border-radius: 50px;
     background-color: black;
     color: #AD68A1;
@@ -154,47 +165,60 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
     height: 50px;
 }
 
-.viewBtn{
-    border-radius: 50px;
-    background-color: black;
-    color: #AD68A1;
-    width: 100px;
-    height: 30px;
+.viewBtn {
+    height: 60px;
+    width: 140px;
+    font-size: 20px;
+    margin-bottom: 70px;
+    color: white;
+    background-color: #412f81;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Smooth transition for color and background-color */
 }
 
-.bookBorder{
-    background-color: #CFAFCA;
+.viewBtn:hover {
+    background-color: #564da3;
+    /* Lighter or different shade when hovered */
+    color: #e0e0e0;
+    /* Optionally change the text color on hover */
+    cursor: pointer;
+    /* Changes the cursor to a pointer to indicate it's clickable */
+}
+
+.bookBorder {
+    background-color: #fefbf4;
     border-radius: 25px;
-    border: 2px solid black;
-    margin-bottom : 20px;
+    border: 2px solid #dbc48f;
+    margin-bottom: 20px;
 }
 
-.widgetField{
+.widgetField {
     border-radius: 50px;
     border: 2px solid black;
 }
 
 .small-image {
-    width: 300px; 
-    height: 200px; 
+    width: 300px;
+    height: 200px;
     border-radius: 25px;
 }
 
-.leftImg{
-    width: 800px; 
+.leftImg {
+    width: 800px;
     height: 500px;
     margin-right: 150px;
 }
 
-.centerImg{
-    width: 400px; 
+.centerImg {
+    width: 400px;
     height: 500px;
     margin-right: 150px;
     margin-bottom: 25px;
 }
 
-.rightImg{
-    width: 400px; 
+.rightImg {
+    width: 400px;
     height: 500px;
     margin-bottom: 25px;
 }
@@ -205,15 +229,16 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
 }
 
 .payImage {
-    margin-right: 20px; /* Adjust the margin as needed */
+    margin-right: 20px;
+    /* Adjust the margin as needed */
 }
 
-.historyBorder{
+.historyBorder {
     width: 100%;
     height: 100vh;
 }
 
-.footSc{
+.footSc {
     background-color: #CFAFCA;
 }
 
@@ -225,43 +250,48 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
     color: #faf1ef;
     width: 100%;
     padding: 0 20px;
-  }
-  
+}
+
 #footer a {
-color: #faf1ef; /* This will make the hyperlink color the same as the footer text color */
-text-decoration: none; /* This will remove the underline */
+    color: #faf1ef;
+    /* This will make the hyperlink color the same as the footer text color */
+    text-decoration: none;
+    /* This will remove the underline */
 }
 
 
 #footer1,
 #footer2 {
-display: flex;
-flex-direction: column;
-align-items: center;
-padding-top: 20px;
-padding-bottom: 20px;
-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
 }
 
 #footer1 h1,
-#footer2 h1 {   
+#footer2 h1 {
     margin-bottom: 20px;
-} 
+}
 
 #footer1 p,
 #footer2 p {
-line-height: 1.0; /* Adjust this value as needed */
+    line-height: 1.0;
+    /* Adjust this value as needed */
 }
 
 #footer4 {
-display: flex;
-flex-direction: column; /* Add this line */
-align-items: center; /* Add this line to center the items */
-justify-content: center;
-background-color: #412f81;
-color: #faf1ef;
-padding-top: 20px;
-width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Add this line */
+    align-items: center;
+    /* Add this line to center the items */
+    justify-content: center;
+    background-color: #412f81;
+    color: #faf1ef;
+    padding-top: 20px;
+    width: 100%;
 }
 
 /* Property Images */
@@ -272,33 +302,33 @@ width: 100%;
     margin-right: 100px;
     margin-bottom: 50px;
 }
-  
+
 #propertyimage img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 #propertyimage b {
-font-size: 30px;
-margin-bottom: 20px;
-padding-right: 40px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    padding-right: 40px;
 }
 
 #propertyimage p {
-font-size: 20px;
-margin-bottom: 20px;
-line-height: 1.5;
-text-align: justify;
-padding-right: 40px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    text-align: justify;
+    padding-right: 40px;
 }
 
 #propertyimage li {
-font-size: 20px;
-margin-bottom: 20px;
-padding-right: 40px;
-line-height: 1.5;
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-right: 40px;
+    line-height: 1.5;
 }
 
 /*Grid-Contaniner*/
@@ -310,49 +340,65 @@ line-height: 1.5;
 }
 
 .grid-container figure img {
-width: 100%; /* Adjusted to fill the figure */
-height: 300px; /* Fixed height, or use 'auto' for natural aspect ratio */
-object-fit: cover; /* Ensures the image covers the area, potentially cropping it */
-border-radius: 20px; /* Rounded corners */
+    width: 100%;
+    /* Adjusted to fill the figure */
+    height: 300px;
+    /* Fixed height, or use 'auto' for natural aspect ratio */
+    object-fit: cover;
+    /* Ensures the image covers the area, potentially cropping it */
+    border-radius: 20px;
+    /* Rounded corners */
 }
 
 .grid-container figure figcaption {
-    color: #7a4b7f; /* Change this to match your theme's text color */
+    color: #7a4b7f;
+    /* Change this to match your theme's text color */
     font-family: "Josefin Sans", sans-serif;
-    text-align: center; /* Center the text */
-    line-height: 0.5; /* Adjust this value as needed */
+    text-align: center;
+    /* Center the text */
+    line-height: 0.5;
+    /* Adjust this value as needed */
     font-size: medium;
     margin-top: 10px;
 }
 
 .grid-container h1 {
-color: black;
-font-size: 30px;
-font-family: "Josefin Sans", sans-serif;
-text-align: center;
+    color: black;
+    font-size: 30px;
+    font-family: "Josefin Sans", sans-serif;
+    text-align: center;
 }
 
 .grid-container p {
-color: #211744;
-font-size: 17.5px;
-font-family: "Josefin Sans", sans-serif;
-text-align: center;
-line-height: 1;
+    color: #211744;
+    font-size: 17.5px;
+    font-family: "Josefin Sans", sans-serif;
+    text-align: center;
+    line-height: 1;
 }
 
 .grid-container figure button {
-display: block; /* Make buttons block to fill container */
-margin: auto; /* Center button horizontally */
-padding: 10px 20px; /* Button padding */
-background-color: #7a4b7f; /* Button color */
-color: white; /* Button text color */
-border: none; /* Remove border */
-cursor: pointer; /* Cursor pointer on hover */
-border-radius: 5px; /* Rounded corners for the button */
+    display: block;
+    /* Make buttons block to fill container */
+    margin: auto;
+    /* Center button horizontally */
+    padding: 10px 20px;
+    /* Button padding */
+    background-color: #7a4b7f;
+    /* Button color */
+    color: white;
+    /* Button text color */
+    border: none;
+    /* Remove border */
+    cursor: pointer;
+    /* Cursor pointer on hover */
+    border-radius: 5px;
+    /* Rounded corners for the button */
 }
 
 .grid-container figure button:hover {
-background-color: #5a3d63; /* Darker shade on hover */
+    background-color: #5a3d63;
+    /* Darker shade on hover */
 }
 
 /*PaymentBox*/
@@ -368,18 +414,22 @@ background-color: #5a3d63; /* Darker shade on hover */
     border-style: solid;
     border-color: #dbc48f;
     border-width: 5px;
-    display: flex; /* Add this line */
-    flex-direction: column; /* Add this line */
+    display: flex;
+    /* Add this line */
+    flex-direction: column;
+    /* Add this line */
     align-items: center;
     align-self: center;
-    justify-content: center; /* Optional: This will center the items vertically */
+    justify-content: center;
+    /* Optional: This will center the items vertically */
 }
 
-#paymentbox input::placeholder{
-color: #fefbf4;
-font-size: 15px; /* Adjust this value to your liking */
-font-family: "Josefin Sans", sans-serif;
-text-align: center;
+#paymentbox input::placeholder {
+    color: #fefbf4;
+    font-size: 15px;
+    /* Adjust this value to your liking */
+    font-family: "Josefin Sans", sans-serif;
+    text-align: center;
 }
 
 .form-control {
@@ -391,6 +441,10 @@ text-align: center;
 }
 
 .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-align: center;
+}
+
+.form-control::placeholder {
+    color: #fefbf4;
 }

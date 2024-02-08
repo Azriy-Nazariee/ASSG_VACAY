@@ -25,7 +25,7 @@
     </div>
 
     <div id="propertyDescription" style="display: flex; justify-content: space-around; margin-top: 20px;">
-        <div style="width:60%">
+        <div style="width:50%">
             <h3>Description</h3>
             <p>
                 <%= property.description %>
@@ -33,23 +33,26 @@
         </div>
 
         <div class="bookBorder d-flex flex-column align-items-center p-3">
-            <h3>Price: RM<%= property.price %>
+            <h3 style="margin-top: 15px; margin-bottom:30px">Price: RM<%= property.price %>
             </h3>
 
             <form class="d-flex flex-column align-items-center" action="/bookingProp/<%= property._id %>" method="POST">
-                <div class="d-flex">
-                    <div class="m-2">
-                        <p>Check-In: </p>
-                        <input class="widgetField text-center" type="date" id="checkIn" name="checkIn"
-                            placeholder="Check-in" />
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group" style="margin-bottom:15px">
+                            <label for="checkIn"><h3 style="font-size:20px">Check-In Date</h3></label>
+                            <input type="date" class="form-control" id="checkIn" name="checkIn" placeholder="Check-in">
+                        </div>
                     </div>
-                    <div class="m-2">
-                        <p>Check-Out: </p>
-                        <input class="widgetField text-center" type="date" id="checkOut" name="checkOut"
-                            placeholder="Check-out" />
+                    <div class="col">
+                        <div class="form-group" style="margin-bottom:15px">
+                            <label for="checkOut"><h3 style="font-size:20px">Check-Out Date</h3></label>
+                            <input type="date" class="form-control" id="checkOut" name="checkOut" placeholder="Check-out">
+                        </div>
                     </div>
                 </div>
-                <input class="widgetField" type="text" placeholder="Number of Guest" name="guestNum">
+                <label for="checkOut"><h3 style="font-size:20px">Number of Guest</h3></label>
+                <input type="number" class="form-control" id="guestNum" name="guestNum" placeholder="Number of Guest" style="margin-bottom:30px">
                 <input class="viewBtn" type="submit" value="Book">
             </form>
         </div>

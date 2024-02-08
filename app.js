@@ -81,6 +81,7 @@ const bookingGuestSchema = new mongoose.Schema({
   phoneNum: Number,
   checkin: Date,
   checkout: Date,
+  guestNum: Number,
   totalPrice: Number,
   bankNo: Number,
   bankType: String,
@@ -489,6 +490,9 @@ app.post("/bookingProp/:propertyId", async function (req, res) {
 
       // Save the booking to the database
       await newBooking.save();
+
+      console.log("Booking details:", newBooking);
+      console.log("Number of guests:", newBooking.guestNum);
 
       res.render("paymentGateway", { property, booking: newBooking });
     } else {

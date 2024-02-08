@@ -4,54 +4,54 @@
         <h1 style="text-align: center;">Just One Step Closer To Your
             Dream Staycation!</h1>
         <h2 style="text-align: center;"> Just Fill In Your Details and Pay The Amount Due. </br>As
-                Simple As That.</h2>
+            Simple As That.</h2>
         <div id="paymentbox" class="container mt-3">
             <h1 style="font-size: 50px; margin-bottom: 20px; text-align: center;">Your Booking Summary</h1>
             <div class="row" style="margin-bottom: 20px;">
                 <!-- Left side: Booking Details -->
                 <div class="col-md-6 d-flex flex-column justify-content-between">
                     <div class="container mt-3"> <!-- Container for some margin -->
-                            <div class="col-12"> <!-- Adjusts for medium devices and up, you can change the size -->
+                        <div class="col-12"> <!-- Adjusts for medium devices and up, you can change the size -->
 
-                                <!-- Guest Name -->
-                                <div class="form-group">
-                                    <h3>Guess Name</h3>
-                                    <input type="text" class="form-control" id="Name" name="Name"
-                                        placeholder="Your Name" value="<%= booking.guestName %>">
-                                </div>
+                            <!-- Guest Name -->
+                            <div class="form-group">
+                                <h3>Guest Name</h3>
+                                <input type="text" class="form-control" id="Name" name="Name" placeholder="Your Name"
+                                    value="<%= booking.guestName %>">
+                            </div>
 
-                                <!-- Dates -->
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <h3>Check-In Date</h3>
-                                            <input type="text" class="form-control" id="checkin" name="checkin"
-                                                value="<%= booking.checkin.toDateString() %>" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <h3>Check-Out Date</h3>
-                                            <input type="text" class="form-control" id="checkout" name="checkout"
-                                                value="<%= booking.checkout.toDateString() %>" readonly>
-                                        </div>
+                            <!-- Dates -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <h3>Check-In Date</h3>
+                                        <input type="text" class="form-control" id="checkin" name="checkin"
+                                            value="<%= booking.checkin.toDateString() %>" readonly>
                                     </div>
                                 </div>
-
-                                <!-- Number of Guests -->
-                                <div class="form-group">
-                                    <h3>Number of Guests</h3>
-                                    <input type="text" class="form-control" id="guestNum" name="guestNum"
-                                        value="<%= booking.guestNum %>" readonly>
-                                </div>
-
-                                <!-- Bank Account Number -->
-                                <div class="form-group">
-                                    <h3>Bank Account Number</h3>
-                                    <input type="text" class="form-control" id="accnum" name="bankNo"
-                                        placeholder="Your Account Number">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <h3>Check-Out Date</h3>
+                                        <input type="text" class="form-control" id="checkout" name="checkout"
+                                            value="<%= booking.checkout.toDateString() %>" readonly>
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- Number of Guests -->
+                            <div class="form-group">
+                                <h3>Number of Guests</h3>
+                                <input type="text" class="form-control" id="guestNum" name="guestNum"
+                                    value="<%= booking.guestNum %>" readonly>
+                            </div>
+
+                            <!-- Bank Account Number -->
+                            <div class="form-group">
+                                <h3>Bank Account Number</h3>
+                                <input type="text" class="form-control" id="accnum" name="bankNo"
+                                    placeholder="Your Account Number">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -61,7 +61,7 @@
                         <div class="row justify-content-center"> <!-- Centers the content horizontally -->
                             <div class="col-12"> <!-- Adjusts for medium devices and up, you can change the size -->
                                 <!-- Property Name and Image -->
-                                <div class="form-group">
+                                <div class="form-group" style=>
                                     <h3>
                                         <%= property.name %>
                                     </h3>
@@ -152,12 +152,10 @@
             <form action="/paymentConfirmation" method="POST">
                 <input type="hidden" name="propertyId" value="<%= property._id %>">
                 <input type="hidden" name="bookingId" value="<%= booking._id %>">
-                <button type="submit"
-                    style="height: 60px; font-size: 20px; margin-bottom: 70px; color: white; background-color: #412f81; border-radius: 20px;">Pay
-                    Now!</button>
+                <button class="viewBtn" type="submit">Pay Now!</button>
             </form>
-            
+
         </div>
     </div>
 
-<%- include('footer') %>
+    <%- include('footer') %>
