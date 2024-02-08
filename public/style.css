@@ -69,6 +69,7 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
 .propBackground{
     background-color: #FBF1EF;
     min-height: 100vh;
+    padding-top: 30px;
 }
 
 .settingBtn{
