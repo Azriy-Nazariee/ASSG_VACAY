@@ -107,6 +107,12 @@ const Admin = new VacayAdmin({
 });
 Admin.save();
 
+const Admin2 = new VacayAdmin({
+  email: "admin@vacay.com",
+  password: "0000",
+});
+Admin2.save();
+
 app.get("/", function (req, res) {
   res.render("welcome");
 });

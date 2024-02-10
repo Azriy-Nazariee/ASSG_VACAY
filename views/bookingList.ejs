@@ -1,33 +1,34 @@
 <%- include('header') %>
-
-<div class="bookingHistory">
-    <h2>Thank You For Your Booking</h2>
-
-    <div class="bookingEntry">
-        <!-- Display the first image if available -->
-        <% if (property && property.images && property.images.length > 0) { %>
-            <div class="bookingImageContainer">
-                <img class=".small-image" src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>" alt="Property Image">
-            </div>
-        <% } else { %>
-            <p class="noImageMessage">No property image available</p>
-        <% } %>
-
-        <div class="bookingDetails">
-            <p>Check-In: <%= booking.checkin.toDateString() %></p>
-            <p>Check-Out: <%= booking.checkout.toDateString() %></p>
-            <p>Total Price: RM<%= booking.totalPrice %></p>
-            <!-- Add other booking details as needed -->
+<div class="propBackground">
+    <div class="container mt-3">
+        <h1 style="text-align: center; margin-top:50px">Thank You For Your Booking!</h1>
+        <h2 style="text-align: center;"> Your Confirmed Booking Is As Follows:</h2>
+        <div class="booking-container">
+            <% if (property && property.images && property.images.length > 0) { %>
+                <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>" alt="Property Image" class="booking-image">
+                <div class="booking-details">
+                    <h2><%= property.name %></h2>
+                    <p>Check-In: <%= booking.checkin.toDateString() %></p>
+                    <p>Check-Out: <%= booking.checkout.toDateString() %></p>
+                    <p>Total Price: RM<%= booking.totalPrice %></p>
+                </div>
+            <% } else { %>
+                <p class="noImageMessage">No property image available</p>
+                <div class="booking-details">
+                    <!-- Display available booking details even if the property image isn't available -->
+                    <h2>Property Information Not Available</h2>
+                    <p>Check-In: <%= booking.checkin.toDateString() %></p>
+                    <p>Check-Out: <%= booking.checkout.toDateString() %></p>
+                    <p>Total Price: RM<%= booking.totalPrice %></p>
+                </div>
+            <% } %>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <form action="/mainView" method="GET">
+                <button class="viewBtn" type="submit"style="width:250px">Return To Main Menu</button>
+            </form>
         </div>
     </div>
 </div>
 
 <%- include('footer') %>
-
-
-
-
-
-
-
-
