@@ -171,14 +171,14 @@ span {
     width: 140px;
     font-size: 20px;
     color: white;
-    background-color: #412f81;
+    background-color: #A768A3;
     border-radius: 20px;
     transition: background-color 0.3s ease, color 0.3s ease;
     /* Smooth transition for color and background-color */
 }
 
 .viewBtn:hover {
-    background-color: #564da3;
+    background-color: #5a3d63;
     /* Lighter or different shade when hovered */
     color: #e0e0e0;
     /* Optionally change the text color on hover */
@@ -433,7 +433,7 @@ span {
 }
 
 .form-control {
-    background-color: #A768A3;
+    background-color: #412f81;
     color: #FEFBF4;
     height: 65px;
     border-radius: 25px;
