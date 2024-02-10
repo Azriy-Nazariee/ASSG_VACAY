@@ -683,6 +683,38 @@ app.get("/community", function (req, res) {
   res.render("community", { userRole: userRole });
 });
 
+app.get("/editProfile", async function (req, res) {
+  try {
+    // Assuming user details are available in req.session.user
+    const user = req.session.user;
+
+    if (user && user.type === "guest") {
+      // Assuming you have a VacayGuest model
+      const vacayGuest = await VacayGuest.findOne({ _id: user.id });
+
+      if (vacayGuest) {
+        res.render("EDITProfile.ejs", {
+          profileName: vacayGuest.name,
+          profileEmail: vacayGuest.email,
+          profilePhoneNumber: vacayGuest.phoneNum,
+          profileStatus: vacayGuest.type,
+          // Add other details as needed
+        });
+      } else {
+        // Handle the case when VacayGuest details are not found
+        console.log("VacayGuest details not found");
+        res.status(404).send("VacayGuest details not found");
+      }
+    } else {
+      // Handle the case when the user doesn't have the required role
+      console.log("User doesn't have the required role");
+      res.redirect("/login"); // Redirect to login page or handle appropriately
+    }
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

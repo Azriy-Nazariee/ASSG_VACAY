@@ -1,0 +1,54 @@
+<%- include('header', { pageTitle: 'Edit Profile | Vacay' }) %>
+
+<body>
+<div class = "propBackground">
+    <div class="container d-flex flex-column justify-content-center align-items-center text-center" style="padding-bottom: 50px; min-height: 100vh;">
+        <!-- Profile Picture Upload -->
+        <div class="profile-pic-container mb-3">
+            <div class="profile-pic position-relative">
+                <img src="uploads/guest.jpg" alt="user pic">
+                <!-- Overlay Upload Button -->
+                <input type="file" id="profilePicture" name="profilePicture" class="d-none" onchange="previewProfileImage(event)">
+                <label for="profilePicture" class="btn" style="background-color: #a768a3; color: white; margin-top: 20px;">Upload</label>
+            </div>
+            <h1 style="font-size: 50px;"><%= profileName %></h1>
+        </div>
+
+        <!-- Profile Details Form -->
+        <div class="appbox w-60">
+            <form class="profile p-4">
+                <div class="mb-3">
+                    <h2> Name: </h2>
+                    <input type="text" class="details" style="background-color: white; color: #a768a3;" id="name" value="<%= profileName %>">
+                </div>
+                <div class="mb-3">
+                    <h2> Email: </h2>
+                    <input type="text" class="details" style="background-color: white; color: #a768a3;" id="email" value="<%= profileEmail %>">
+                </div>
+                <div class="mb-3">
+                    <h2> Phone Number: </h2>
+                    <input type="text" class="details" style="background-color: white; color: #a768a3;" id="phone" value="<%= profilePhoneNumber %>">
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status:</label>
+                    <input type="text" class="details" id="status" value="<%= profileStatus %>" readonly>
+                </div>
+                <button type="submit" class="welcomeBtn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function previewProfileImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('profileImagePreview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+
+<%- include('footer') %>

@@ -504,12 +504,9 @@ line-height: 1.5;
     color: white;
     border-radius: 20px;
     padding: 20px;
+    margin-top: 20px;
 }
 
-
-#details p {
-    font-size: 20px;
-}
 
 .profile-pic-container {
     display: flex;
@@ -549,6 +546,7 @@ line-height: 1.5;
     color: white;
     padding: 10px 20px;
     font-size: 25px;
+    text-align: center;
 }
 
 .details p{
