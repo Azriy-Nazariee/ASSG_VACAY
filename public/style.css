@@ -80,7 +80,7 @@ span {
 .propBackground {
     background-color: #FBF1EF;
     min-height: 100vh;
-    padding-top: 30px;
+    padding-top: 50px;
 }
 
 .settingBtn {
@@ -170,7 +170,6 @@ span {
     height: 60px;
     width: 140px;
     font-size: 20px;
-    margin-bottom: 70px;
     color: white;
     background-color: #412f81;
     border-radius: 20px;
