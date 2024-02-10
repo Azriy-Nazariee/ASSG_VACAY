@@ -1,33 +1,38 @@
 <%- include('header', { pageTitle: 'Guest Profile | Vacay' }) %>
 
-<div class="d-flex justify-content-center align-items-center p-0 profileBackground">
-    <div class="d-flex flex-column p-5 w-100 l-100">
-        <div class="d-flex">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="Black bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-            </svg>
-            <h3 class="ms-2"><%= profileName %></h3>
+<body>
+    <div class="propBackground d-flex flex-column justify-content-center align-items-center text-center" style="padding-bottom: 50px; min-height: 100vh;">
+        <div class="profile-pic-container">
+            <div class="profile-pic">
+                <img src="uploads/guest.jpg" alt="user pic">
+            </div>
+            <h1 style="font-size: 50px;"><%= profileName %></h1>
         </div>
-        <div class="profileBorder">
-            <div>
-                <p>Name: </p>
-                <p class="profileField"><%= profileName %></p>
-            </div>
-            <div>
-                <p>Email: </p>
-                <p class="profileField"><%= profileEmail %></p>
-            </div>
-            <div>
-                <p>Phone Number: </p>
-                <p class="profileField"><%= profilePhoneNumber %></p>
-            </div>
-            <div>
-                <p>Status: </p>
-                <p class="profileField"><%= profileStatus %></p>
+        <div class="appbox w-60"> <!-- Adjust the width as needed -->
+            <div class="profile p-5">
+                <h2> Name: </h2>
+                <div class="details">
+                    <p><%= profileName %></p>
+                </div>
+                <h2> Email: </h2>
+                <div class="details">
+                    <p><%= profileEmail %></p>
+                </div>
+                <h2> Phone Number: </h2>
+                <div class="details">
+                    <p><%= profilePhoneNumber %></p>
+                </div>
+                <h2> Status: </h2>
+                <div class="details">
+                    <p><%= profileStatus %></p>
+                </div>
+                <form action="/register" method="GET" class="mb-2">
+                    <button class="welcomeBtn" style="margin-bottom: 0;">Edit Profile</button>
+                </form>
             </div>
         </div>
     </div>
-</div>
+</body>
+
 
 <%- include('footer') %>
