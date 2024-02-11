@@ -6,31 +6,33 @@
         <!-- Profile Picture Upload -->
         <div class="profile-pic-container mb-3">
             <div class="profile-pic position-relative">
-                <img src="uploads/guest.jpg" alt="user pic">
+                <img src="uploads/guest.jpg" alt="user pic" id="profileImagePreview">
                 <!-- Overlay Upload Button -->
-                <input type="file" id="profilePicture" name="profilePicture" class="d-none" onchange="previewProfileImage(event)">
-                <label for="profilePicture" class="btn" style="background-color: #a768a3; color: white; margin-top: 20px;">Upload</label>
+                <form action="/editGuestDetails" method="POST" enctype="multipart/form-data" class="profile p-4">
+                    <input type="file" name="profilePic" id="profilePic" class="d-none" onchange="previewProfileImage(event)">
+                    <label for="profilePic" class="btn" style="background-color: #a768a3; color: white; margin-top: 20px;">Upload</label>
+                </form>
             </div>
             <h1 style="font-size: 50px;"><%= profileName %></h1>
         </div>
 
         <!-- Profile Details Form -->
         <div class="appbox w-60">
-            <form class="profile p-4">
+            <form class="profile p-5" action="/editGuestDetails" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <h2> Name: </h2>
-                    <input type="text" class="details" style="background-color: white; color: #a768a3;" id="name" value="<%= profileName %>">
+                    <input type="text" class="details" style="background-color: white; color: #a768a3;" name="name" value="<%= profileName %>">
                 </div>
                 <div class="mb-3">
                     <h2> Email: </h2>
-                    <input type="text" class="details" style="background-color: white; color: #a768a3;" id="email" value="<%= profileEmail %>">
+                    <input type="text" class="details" style="background-color: white; color: #a768a3;" name="email" value="<%= profileEmail %>">
                 </div>
                 <div class="mb-3">
                     <h2> Phone Number: </h2>
-                    <input type="text" class="details" style="background-color: white; color: #a768a3;" id="phone" value="<%= profilePhoneNumber %>">
+                    <input type="text" class="details" style="background-color: white; color: #a768a3;" name="phoneNum"  value="<%= profilePhoneNumber %>">
                 </div>
                 <div class="mb-3">
-                    <label for="status" class="form-label">Status:</label>
+                    <h2> Status: </h2>
                     <input type="text" class="details" id="status" value="<%= profileStatus %>" readonly>
                 </div>
                 <button type="submit" class="welcomeBtn">Save Changes</button>

@@ -44,6 +44,10 @@ const vacayGuestSchema = new mongoose.Schema({
   password: String,
   type: String,
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  profilePic: {
+    type: String,
+    default: '',
+  },
 });
 
 const vacayHostSchema = new mongoose.Schema({
@@ -54,11 +58,19 @@ const vacayHostSchema = new mongoose.Schema({
   bankNum: Number,
   type: String,
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  profilePic: {
+    type: String,
+    default: '',
+  },
 });
 
 const vacayAdminSchema = new mongoose.Schema({
   email: String,
   password: String,
+  profilePic: {
+    type: String,
+    default: '',
+  },
 });
 
 const propertyHostSchema = new mongoose.Schema({
@@ -720,3 +732,30 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+app.post("/editGuestDetails", upload.single('profilePic'), async function (req, res) {
+  try {
+    const guestId = req.session.user && req.session.user.id; // Assuming the guest's ID is stored in session
+    if (!guestId) {
+      return res.status(401).send('User not logged in');
+    }
+
+    const updateData = {
+      name: req.body.name,
+      email: req.body.email,
+      phoneNum: req.body.phoneNum,
+    };
+
+    if (req.file) {
+      updateData.profilePic = req.file.path; // Save the path of the uploaded file
+    }
+
+    await VacayGuest.findByIdAndUpdate(guestId, updateData);
+
+    res.redirect("/profileGuest");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/editProfile"); // Assuming you have a route for editing profiles
+  }
+});
+
