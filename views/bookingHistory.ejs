@@ -17,6 +17,11 @@
                     <p>Total Price: RM<%= history.bookingId.totalPrice %></p>
                     <p>Check-In: <%= history.bookingId.checkin.toDateString() %></p>
                     <p>Check-Out: <%= history.bookingId.checkout.toDateString() %></p>
+                    <!-- Add buttons here -->
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary mt-2">Ask for Refund</button>
+                        <button class="btn btn-secondary mt-2">Rate and Feedback</button>
+                    </div>
                 </figcaption>
             </figure>
         <% }) %>

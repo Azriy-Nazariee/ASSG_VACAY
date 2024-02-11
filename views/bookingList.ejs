@@ -1,9 +1,10 @@
-<%- include('header') %>
-<div class="propBackground">
-    <div class="container mt-3">
-        <h1 style="text-align: center; margin-top:50px">Thank You For Your Booking!</h1>
-        <h2 style="text-align: center;"> Your Confirmed Booking Is As Follows:</h2>
-        <div class="booking-container">
+<%- include('header', { pageTitle: 'Payment Confirmation | Vacay' }) %>
+
+<div class="propBackground align-content-center pb-5 pt-1">
+    <div class="container mt-3 text-center">
+        <h1 class="mt-5">Thank You For Your Booking!</h1>
+        <h2>Your Confirmed Booking Is As Follows:</h2>
+        <div class="booking-container mx-auto">
             <% if (property && property.images && property.images.length > 0) { %>
                 <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>" alt="Property Image" class="booking-image">
                 <div class="booking-details">
@@ -23,9 +24,13 @@
                 </div>
             <% } %>
         </div>
-        <div style="display: flex; justify-content: center; align-items: center;">
+        <div class="d-flex justify-content-center">
+            <!-- Add print button here -->
+            <button onclick="window.print()" class="viewBtn" style="width:250px; margin-bottom: 20px;">Print Confirmation</button>
+        </div>
+        <div class="d-flex justify-content-center">
             <form action="/mainView" method="GET">
-                <button class="viewBtn" type="submit"style="width:250px; margin-bottom:50px">Return To Main Menu</button>
+                <button class="viewBtn" type="submit" style="width:250px;">Return To Main Menu</button>
             </form>
         </div>
     </div>
