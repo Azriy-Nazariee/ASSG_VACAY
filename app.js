@@ -23,6 +23,7 @@ app.use(
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/uploads', express.static('uploads'));
 
 const saltRounds = 10;
 
@@ -320,8 +321,9 @@ app.get("/profileGuest", async function (req, res) {
           profileEmail: vacayGuest.email,
           profilePhoneNumber: vacayGuest.phoneNum,
           profileStatus: vacayGuest.type,
-          // Add other details as needed
+          profilePic: vacayGuest.profilePic,
         });
+        console.log(vacayGuest.profilePic);
       } else {
         // Handle the case when VacayGuest details are not found
         console.log("VacayGuest details not found");
@@ -705,11 +707,12 @@ app.get("/editProfile", async function (req, res) {
       const vacayGuest = await VacayGuest.findOne({ _id: user.id });
 
       if (vacayGuest) {
-        res.render("EDITProfile.ejs", {
+        res.render("editProfile.ejs", {
           profileName: vacayGuest.name,
           profileEmail: vacayGuest.email,
           profilePhoneNumber: vacayGuest.phoneNum,
           profileStatus: vacayGuest.type,
+          profilePic: vacayGuest.profilePic,
           // Add other details as needed
         });
       } else {

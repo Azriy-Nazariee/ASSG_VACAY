@@ -6,9 +6,9 @@
         <!-- Profile Picture Upload -->
         <div class="profile-pic-container mb-3">
             <div class="profile-pic position-relative">
-                <img src="uploads/guest.jpg" alt="user pic" id="profileImagePreview">
+                <img src="<%= profilePic %>" alt="user pic" id="profileImagePreview">
                 <!-- Overlay Upload Button -->
-                <form action="/editGuestDetails" method="POST" enctype="multipart/form-data" class="profile p-4">
+                <form action="/editGuestDetails" method="POST" enctype="multipart/form-data" class="profile p-4 position-absolute top-50 start-50 translate-middle">
                     <input type="file" name="profilePic" id="profilePic" class="d-none" onchange="previewProfileImage(event)">
                     <label for="profilePic" class="btn" style="background-color: #a768a3; color: white; margin-top: 20px;">Upload</label>
                 </form>
