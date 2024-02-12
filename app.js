@@ -452,22 +452,16 @@ app.post("/proplist", upload.array("images", 5), async function (req, res) {
 
 app.get("/propertylist", async function (req, res) {
   try {
-    // Retrieve all property hosts from the database
     const propertyHosts = await PropertyHost.find();
-
-    // Filter the property hosts based on the currently logged-in host
-    const filteredProperties = propertyHosts.filter(propertyHost => {
-      return propertyHost.hostId.equals(req.session.user); // Compare with the _id of the logged-in host
-    });
-
-    // Render the property list template with the filtered properties
-    res.render("propertyList", { propertyHosts: filteredProperties });
+    res.render("propertyList", { propertyHosts, userId: req.session.user.id.toString() });
   } catch (err) {
-    // Handle errors, if any
     console.log(err);
-    res.render("propertyList", { propertyHosts: [] }); // Render with an empty array if an error occurs
+    res.status(500).send("Error fetching property hosts"); // Send a simple error message
   }
 });
+
+
+
 
 app.post("/removeproperty", async function (req, res) {
   const propertyIdToRemove = req.body.propertyId;
