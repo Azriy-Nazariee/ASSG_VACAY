@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="d-flex flex-column align-items-center justify-content-center mt-5">
-            <form action="/ratings" method="POST" style="width:50%">
+            <form action="/ratings/<%= propertyHost._id %>" method="POST" style="width:50%">
                 <input type="hidden" name="propertyId" value="<%= propertyHost._id %>">
                 <div class="form-group text-center">
                     <h3>How Would You Rate Your Stay Here?</h3>
