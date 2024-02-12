@@ -221,7 +221,7 @@ app.post("/login", async function (req, res) {
 
         if (userRole === "guest") {
           res.redirect("/mainView");
-        } else {
+        } else if (userRole === "host") {
           res.redirect("/mainHost");
         }
       } else {
@@ -291,19 +291,25 @@ app.get("/mainView", async function (req, res) {
   }
 });
 
-app.get("/mainHost", function (req, res) {
-  res.render("mainHost");
+app.get("/mainHost", async function (req, res) {
+  try {
+    const propertyHosts = await PropertyHost.find();
+    res.render("mainHost", {propertyHosts, user: req.session.user});
+  } catch (err) {
+    console.log(err);
+    res.redirect("/login");
+  }
 });
 
-app.get("/settings", function (req, res) {
-  res.render("setting");
+app.get("/settingsHost", function (req, res) {
+  res.render("settingHost");
 });
 app.get("/settingsGuest", function (req, res) {
   res.render("settingGuest");
 });
 
 app.get("/settingsAdmin", function (req, res) {
-  res.render("adminSetting");
+  res.render("settingAdmin");
 });
 
 app.get("/profileGuest", async function (req, res) {
@@ -340,12 +346,12 @@ app.get("/profileGuest", async function (req, res) {
   }
 });
 
-app.get("/profile", async function (req, res) {
+app.get("/profileHost", async function (req, res) {
   try {
     // Assuming user details are available in req.session.user
     const user = req.session.user;
 
-    console.log(req.query); // Use req.query to access query parameters
+    // console.log(req.query); // Use req.query to access query parameters
 
     if (user && user.type === "host") {
       // Assuming you have a VacayHost model
@@ -357,8 +363,9 @@ app.get("/profile", async function (req, res) {
           profileEmail: vacayHost.email,
           profilePhoneNumber: vacayHost.phoneNum,
           profileStatus: vacayHost.type,
-          // Add other details as needed
+          profilePic: vacayHost.profilePic,
         });
+          console.log(vacayHost.profilePic);
       } else {
         // Handle the case when VacayHost details are not found
         console.log("VacayHost details not found");
@@ -426,11 +433,20 @@ app.post("/proplist", upload.array("images", 5), async function (req, res) {
 
 app.get("/propertylist", async function (req, res) {
   try {
+    // Retrieve all property hosts from the database
     const propertyHosts = await PropertyHost.find();
-    res.render("propertyList", { propertyHosts, user: req.session.user });
+
+    // Filter the property hosts based on the currently logged-in host
+    const filteredProperties = propertyHosts.filter(propertyHost => {
+      return propertyHost.hostId.equals(req.session.user); // Compare with the _id of the logged-in host
+    });
+
+    // Render the property list template with the filtered properties
+    res.render("propertyList", { propertyHosts: filteredProperties });
   } catch (err) {
+    // Handle errors, if any
     console.log(err);
-    res.render("propertyList", { propertyHosts: [], user: req.session.user });
+    res.render("propertyList", { propertyHosts: [] }); // Render with an empty array if an error occurs
   }
 });
 
@@ -596,6 +612,10 @@ app.get("/guestView", function (req, res) {
   res.redirect("/mainView");
 });
 
+app.get("/hostView", function (req, res) {
+  res.redirect("/mainHost");
+});
+
 app.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
     if (err) {
@@ -731,6 +751,40 @@ app.get("/editProfile", async function (req, res) {
   }
 });
 
+app.get("/editProfileHost", async function (req, res) {
+  try {
+    // Assuming user details are available in req.session.user
+    const user = req.session.user;
+
+    if (user && user.type === "host") {
+      // Assuming you have a  VacayHost model
+      const vacayHost = await VacayHost.findOne({ _id: user.id });
+
+      if (vacayHost) {
+        res.render("editProfileHost.ejs", {
+          profileName: vacayHost.name,
+          profileEmail: vacayHost.email,
+          profilePhoneNumber: vacayHost.phoneNum,
+          profileStatus: vacayHost.type,
+          profilePic: vacayHost.profilePic,
+          // Add other details as needed
+        });
+      } else {
+        // Handle the case when vacayHostacayHost details are not found
+        console.log("VacayHost details not found");
+        res.status(404).send("VacayHost details not found");
+      }
+    } else {
+      // Handle the case when the user doesn't have the required role
+      console.log("User doesn't have the required role");
+      res.redirect("/login"); // Redirect to login page or handle appropriately
+    }
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
@@ -759,6 +813,32 @@ app.post("/editGuestDetails", upload.single('profilePic'), async function (req, 
   } catch (err) {
     console.log(err);
     res.redirect("/editProfile"); // Assuming you have a route for editing profiles
+  }
+});
+
+app.post("/editHostDetails", upload.single('profilePic'), async function (req, res) {
+  try {
+    const hostId = req.session.user && req.session.user.id; // Assuming the host's ID is stored in session
+    if (!hostId) {
+      return res.status(401).send('User not logged in');
+    }
+
+    const updateData = {
+      name: req.body.name,
+      email: req.body.email,
+      phoneNum: req.body.phoneNum,
+    };
+
+    if (req.file) {
+      updateData.profilePic = req.file.path; // Save the path of the uploaded file
+    }
+
+    await VacayHost.findByIdAndUpdate(hostId, updateData);
+
+    res.redirect("/profileHost");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/editProfileHost"); // Assuming you have a route for editing profiles
   }
 });
 
