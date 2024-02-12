@@ -1,0 +1,35 @@
+<%- include('header', { pageTitle: 'Search Results | Vacay' }) %>
+
+<div class="propBackground">
+    <h1 style="font-size: 50px; text-align: center;">Search Results</h1>
+    <h2 style="font-size: 30px; margin-top: 0%; text-align: center;">Discover Your Next Stay</h2>
+
+    <% if (properties && properties.length > 0) { %>
+        <div class="grid-container">
+            <% properties.forEach(property => { %>
+                <figure>
+                    <% if (property.images && property.images.length > 0) { %>
+                        <img src="<%= 'data:' + property.images[0].contentType + ';base64,' + property.images[0].data.toString('base64') %>" alt="Property Image" style="width: 100%;">
+                    <% } else { %>
+                        <img src="/images/placeholder-image-url.jpg" alt="Placeholder Image" style="width: 100%;">
+                    <% } %>
+                    <figcaption>
+                        <h1><%= property.name %></h1>
+                        <p><%= property.address %></p>
+                        <p><%= property.guestNum %> Guests</p>
+                        <p>RM<%= property.price %>/night</p>
+                    </figcaption>
+                    <form action="/propertyView/<%= property._id %>" method="GET">
+                        <button type="submit" class="btn btn-primary">View</button>
+                    </form>
+                </figure>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <div class="alert alert-warning" role="alert" style="text-align: center;">
+            No properties found. Try adjusting your search criteria.
+        </div>
+    <% } %>
+</div>
+
+<%- include('footer') %>

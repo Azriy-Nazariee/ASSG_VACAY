@@ -126,11 +126,17 @@ const refundBookingSchema = new mongoose.Schema({
     ref: "VacayGuest",
     required: true,
   },
+  propertyId: { // Adding propertyId reference to the schema
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "PropertyHost",
+    required: true, // Set to true or false based on your requirement
+  },
   refundAmount: { type: Number, required: true },
   reason: { type: String, required: true },
   status: { type: String, default: "Pending" },
   timestamp: { type: Date, default: Date.now },
 });
+
 
 const VacayGuest = mongoose.model("VacayGuest", vacayGuestSchema);
 const VacayHost = mongoose.model("VacayHost", vacayHostSchema);
@@ -973,8 +979,6 @@ app.get("/refundGuest/:bookingHistoryId", async function (req, res) {
     ).populate("propertyId");
 
     // Fetch the booking guest from the database
-    // Ensure this fetch is correct; it seems like you're trying to find a BookingGuest by the BookingHistory's bookingId
-    // If bookingId is not the correct identifier for BookingGuest, adjust the query accordingly.
     const bookingGuest = await BookingGuest.findById(bookingHistory.bookingId);
 
     // Check if bookingHistory and bookingGuest were successfully fetched before proceeding
@@ -1001,20 +1005,23 @@ app.post("/refund", async function (req, res) {
   const { bookingId, userId, reason, totalPrice } = req.body;
 
   // Fetch the booking details from the database
-  const booking = await BookingHistory.findById(bookingId);
+  const bookingHistory = await BookingHistory.findById(bookingId).populate('propertyId');
 
   // Fetch the booking guest from the database
-  const bookingGuest = await BookingGuest.findById(booking.bookingId);
+  const bookingGuest = await BookingGuest.findById(bookingHistory.bookingId);
 
   // Check if the booking exists
   if (!bookingGuest) {
     return res.status(404).send({ error: "Booking not found." });
   }
 
+  const propertyId = bookingHistory.propertyId._id;
+
   // Create a new refund
   const refund = new Refund({
     bookingId,
     userId,
+    propertyId, // Now including propertyId in the refund
     refundAmount: totalPrice, // use the totalPrice from the form as the refundAmount
     reason,
     status: "Pending", // status is always "Pending" when a refund is first created
@@ -1038,3 +1045,70 @@ app.post("/refund", async function (req, res) {
       });
   }
 });
+
+app.get('/refundListGuest', async function (req, res) {
+  if (!req.session.user || !req.session.user.id) {
+    return res.redirect('/login');
+  }
+
+  const userId = req.session.user.id;
+
+  try {
+    const refundList = await Refund.find({ userId: userId })
+      .populate('bookingId')
+      .populate('userId')
+      .populate('propertyId') // Populate propertyId to access property details
+      .exec();
+
+    console.log("Refund List:", refundList);
+
+    res.render('refundListGuest', { Refund : refundList });
+  } catch (error) {
+    console.error("Error fetching refund requests", error);
+    res.status(500).send('Error fetching refund requests');
+  }
+});
+
+// Route to handle search
+app.get('/search', async function (req, res){
+    const { location, numGuest, checkIn, checkOut } = req.query;
+    
+    // Call the search function here (implement it in the next step)
+    try {
+        const availableProperties = await searchProperties(location, numGuest, checkIn, checkOut);
+        res.render('searchResults', { properties: availableProperties }); // Assuming you have a view called 'searchResults'
+    } catch (error) {
+        console.error('Search Error:', error);
+        res.status(500).send('Server error during property search.');
+    }
+});
+
+const searchProperties = async (location, numGuest, checkIn, checkOut) => {
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+
+  // Find properties that match the location and guest number criteria
+  let initialProperties = await PropertyHost.find({
+      address: new RegExp(location, 'i'), // Case-insensitive search for location
+      guestNum: { $gte: Number(numGuest) } // Greater than or equal to numGuest
+  });
+
+  // Find bookings that are within the requested date range
+  const conflictingBookings = await BookingHistory.find({
+      $or: [
+          { checkin: { $lt: checkOutDate, $gte: checkInDate } }, // Check-in within range
+          { checkout: { $lte: checkOutDate, $gt: checkInDate } }, // Check-out within range
+          { checkin: { $lte: checkInDate }, checkout: { $gte: checkOutDate } } // Encompasses the range
+      ]
+  });
+
+  // Extract property IDs from conflicting bookings
+  const bookedPropertyIds = conflictingBookings.map(booking => booking.propertyId.toString());
+
+  // Filter initialProperties to exclude properties with conflicting bookings
+  const availableProperties = initialProperties.filter(property => 
+      !bookedPropertyIds.includes(property._id.toString())
+  );
+
+  return availableProperties;
+};
