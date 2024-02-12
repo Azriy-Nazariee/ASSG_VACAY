@@ -1,24 +1,63 @@
-<%- include('headerHost', { pageTitle: 'Settle Refund | Vacay' }) %>
+<% if (userRole === 'host') { %>
+    <%- include('headerHost', { pageTitle: 'Settle Refund | Vacay' }) %>
+<% } else { %>
+    <%- include('headerAdmin', { pageTitle: 'Settle Refund | Vacay' }) %>
+<% } %>
 
-<div class="propBackground d-flex flex-column"">
-    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 0;">Refund</h3>
-    <ul>
-        <% refunds.forEach(refund => { %>
-            <li>
-                <h3>Booking ID: <%= refund.bookingId %></h3>
-                <p>Refund Amount: <%= refund.refundAmount %></p>
-                <p>Reason: <%= refund.reason %></p>
-                <p>Status: <%= refund.status %></p>
-                <p>Timestamp: <%= refund.timestamp %></p>
-                <form action="/acceptrefund/<%= refund._id %>" method="POST">
-                    <button class="viewBtn" type="submit">Accept</button>
-                </form>
-                <form action="/rejectrefund/<%= refund._id %>" method="POST">
-                    <button class="viewBtn" type="submit">Reject</button>
-                </form>
-            </li>
-        <% }); %>
-    </ul>
+<% if (messages.successAccept) { %>
+    <script>
+        alert('<%= messages.successAccept %>');
+    </script>
+<% } %>
+
+<% if (messages.successReject) { %>
+    <script>
+        alert('<%= messages.successReject %>');
+    </script>
+<% } %>
+
+<div class="propBackground">
+    <h3 class="p-2" style="padding-top: 30px; margin-left: 110px; font-size: 50px; margin-bottom: 20px;">Settle Refund</h3>
+    <div class="container mt-0">
+    <% refunds.forEach(refund => { %>
+    <div class="card mb-3 d-flex flex-row" style="border-radius: 20px; overflow: hidden; align-items: center;">
+        <% if (refund.propertyId.images && refund.propertyId.images.length > 0) { %>
+        <div class="row g-0 flex-grow-1">
+            <div class="col-md-4">
+                <% refund.propertyId.images.slice(0,1).forEach(image => { %>
+                <img src="data:<%= image.contentType %>;base64,<%= image.data.toString('base64') %>" class="img-fluid rounded-start" alt="Property Image" style="height: 100%; width: 100%; object-fit: cover;">
+                <% }); %>
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h2 class="card-title"><%= refund.propertyId.name %></h2>
+                    <p class="card-text"><strong>Booking ID:</strong> <%= refund.bookingId %></p>
+                    <p class="card-text"><strong>Refund Amount:</strong> RM<%= refund.refundAmount %></p>
+                    <p class="card-text"><strong>Reason:</strong> <%= refund.reason %></p>
+                    <p class="card-text"><strong>Status:</strong> <%= refund.status %></p>
+                    <p class="card-text"><strong>Requested At:</strong> <%= refund.timestamp.toDateString() %></p>
+                    <% if (refund.status === 'Pending') { %>
+                    <div class="d-flex">
+                        <form action="/acceptrefund/<%= refund._id %>" method="POST" style="margin-right:20px">
+                            <button class="btn btn-success" type="submit">Accept</button>
+                        </form>
+                        <form action="/rejectrefund/<%= refund._id %>" method="POST">
+                            <button class="btn btn-danger" type="submit">Reject</button>
+                        </form>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+            <img src="<% if (refund.status === 'Pending') { %>uploads/status/pending.png<% } else if (refund.status === 'Accepted') { %>uploads/status/success.png<% } else if (refund.status === 'Rejected') { %>uploads/status/rejected.png<% } %>" alt="Status Icon" style="height: 100px; width: 100px;">
+        </div>
+        <% } else { %>
+        <!-- Layout adjustment for cards without a property image -->
+        <% } %>
+    </div>
+    <% }); %>
+</div>
 </div>
 
 <%- include('footer') %>

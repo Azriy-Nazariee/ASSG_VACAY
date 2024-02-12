@@ -1,0 +1,44 @@
+<%- include('headerHost', { pageTitle: 'Property Ratings | Vacay' }) %>
+
+<div class="propBackground">
+    <h3 class="p-2" style="padding-top: 30px; margin-left: 110px; font-size: 50px; margin-bottom: 20px;">Property Ratings</h3>
+    <div class="container mt-0">
+    <% propertyRatings.forEach(rating => { %>
+    <div class="card mb-3" style="border-radius: 20px; overflow: hidden;">
+        <% if (rating.propertyId.images && rating.propertyId.images.length > 0) { %>
+        <div class="row g-0">
+            <div class="col-md-4">
+                <% rating.propertyId.images.slice(0,1).forEach(image => { %>
+                <img src="data:<%= image.contentType %>;base64,<%= image.data.toString('base64') %>" class="img-fluid rounded-start" alt="Property Image" style="height: 100%; width: 100%; object-fit: cover;">
+                <% }); %>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body" style="margin-left:50px">
+                    <h2 class="card-title"><%= rating.propertyId.name %></h2>
+                    <p class="card-text"><strong>Guest:</strong> <%= rating.userId.name %></p>
+                    <p class="card-text"><strong>Rating:</strong> 
+                        <% for(let i = 0; i < 5; i++) { %>
+                            <% if(i < rating.rating) { %>
+                                ★ <!-- Filled star for each point in rating -->
+                            <% } else { %>
+                                ☆ <!-- Empty star for the rest -->
+                            <% } %>
+                        <% } %>
+                    </p>
+                    <p class="card-text"><strong>Review:</strong> <%= rating.review %></p>
+                    <p class="card-text"><strong>Submitted At:</strong> <%= rating.timestamp.toDateString() %></small></p>
+                </div>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="card-body">
+            <h5 class="card-title">Rating for an Unspecified Property</h5>
+            <!-- Similar rating details as above without the property image -->
+        </div>
+        <% } %>
+    </div>
+    <% }); %>
+</div>
+</div>
+
+<%- include('footer') %>

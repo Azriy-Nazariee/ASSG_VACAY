@@ -1,43 +1,46 @@
 <%- include('headerHost', { pageTitle: 'Property List | Vacay' }) %>
 
-<div class="propBackground d-flex flex-column">
-    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 0;">Property List</h3>
-
-    <% propertyHosts.forEach(propertyHost => { %>
-      <% if (propertyHost.hostId.toString() === userId) { %>
-        <div class="propList d-flex m-3 p-4 align-items-stretch row" style="background-color: #fefbf4; border: solid #dbc48f; border-radius: 20px;">
-          <div class="col-md-4 d-flex align-items-center" style="padding: 0; height:100%">
+<div class="propBackground">
+  <h3 class="p-2" style="padding-top: 30px; margin-left: 110px; font-size: 50px; margin-bottom: 20px;">Property List</h3>
+  <div class="container mt-0">
+      
+      <% propertyHosts.forEach(propertyHost => { %>
+        <% if (propertyHost.hostId.toString() === userId) { %>
+          <div class="card mb-3" style="border-radius: 20px; overflow: hidden;">
             <% if (propertyHost.images && propertyHost.images.length > 0 && propertyHost.images[0] && propertyHost.images[0].contentType && propertyHost.images[0].data) { %>
-              <img src="data:<%= propertyHost.images[0].contentType %>;base64,<%= propertyHost.images[0].data.toString('base64') %>" alt="Property Image" class="img-fluid h-100" style="height:100%;border-radius: 20px; object-fit: cover; width: 100%;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="data:<%= propertyHost.images[0].contentType %>;base64,<%= propertyHost.images[0].data.toString('base64') %>" class="img-fluid rounded-start" alt="Property Image" style="height: 100%; width: 100%; object-fit: cover;">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body" style="margin-left:50px">
+                  <h2 class="card-title"><%= propertyHost.name %></h2>
+                  <p class="card-text"><strong>Total Guest:</strong> <%= propertyHost.guestNum %> Guest</p>
+                  <p class="card-text"><strong>Price:</strong> RM<%= propertyHost.price %>/Night</p>
+                  <p class="card-text"><strong>Location:</strong> <%= propertyHost.address %></p>
+                  <form action="/removeproperty" method="POST" class="d-flex mt-3">
+                    <input type="hidden" name="propertyId" value="<%= propertyHost._id %>">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                  </form>
+                </div>
+              </div>
+            </div>
             <% } else { %>
-              <p>No Image</p>
+            <div class="card-body">
+              <h5 class="card-title">No Image Available</h5>
+              <!-- Similar property details as above without the property image -->
+            </div>
             <% } %>                
           </div>
-          <div class="col-md-8 d-flex flex-column justify-content-center" style="padding-left: 20px;">
-            <h1><%= propertyHost.name %></h1>
-            <h3>Total Guest: <%= propertyHost.guestNum %> Guest</h3>
-            <h3>Price: <%= propertyHost.price %>/Night</h3>
-            <h3>Location: <%= propertyHost.address %></h3>
-            <form action="/removeproperty" method="POST" class="mt-2">
-              <input type="hidden" name="propertyId" value="<%= propertyHost._id %>">
-              <button class="btn btn-danger" type="submit">Remove</button>
-            </form>
-          </div>
-        </div>
         <% } %>
       <% }); %>
-      
-    
 
-    <div class="d-flex justify-content-center align-items-center" style="margin-top:50px;">
-        <form action="/propertyform" method="GET">
-            <button type="submit" class="viewBtn" style="margin-bottom: 50px;">Add Property</button>
-        </form>
-    </div>
-    
+      <div class="d-flex justify-content-center align-items-center" style="margin-top:50px;">
+          <form action="/propertyform" method="GET">
+              <button type="submit" class="btn btn-primary" style="margin-bottom: 50px; background-color:#2D1674">Add Property</button>
+          </form>
+      </div>
+  </div>
 </div>
 
 <%- include('footer') %>
-
-
-

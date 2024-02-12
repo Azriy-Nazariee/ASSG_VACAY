@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const flash = require("connect-flash");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -25,6 +26,7 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static("uploads"));
+app.use(flash());
 
 const saltRounds = 10;
 
@@ -127,7 +129,8 @@ const refundBookingSchema = new mongoose.Schema({
     ref: "VacayGuest",
     required: true,
   },
-  propertyId: { // Adding propertyId reference to the schema
+  propertyId: {
+    // Adding propertyId reference to the schema
     type: mongoose.Schema.Types.ObjectId,
     ref: "PropertyHost",
     required: true, // Set to true or false based on your requirement
@@ -137,7 +140,6 @@ const refundBookingSchema = new mongoose.Schema({
   status: { type: String, default: "Pending" },
   timestamp: { type: Date, default: Date.now },
 });
-
 
 const VacayGuest = mongoose.model("VacayGuest", vacayGuestSchema);
 const VacayHost = mongoose.model("VacayHost", vacayHostSchema);
@@ -194,7 +196,6 @@ VacayAdmin.findOne({ email: "admin@vacay.com" })
     console.error("Error checking for existing admin:", err);
   });
 
-
 app.get("/", function (req, res) {
   res.render("welcome");
 });
@@ -241,6 +242,10 @@ app.post("/mainAdmin", async function (req, res) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
+});
+
+app.get("/adminMain", function (req, res) {
+  res.render("adminMain");
 });
 
 app.get("/login", function (req, res) {
@@ -1006,7 +1011,9 @@ app.post("/refund", async function (req, res) {
   const { bookingId, userId, reason, totalPrice } = req.body;
 
   // Fetch the booking details from the database
-  const bookingHistory = await BookingHistory.findById(bookingId).populate('propertyId');
+  const bookingHistory = await BookingHistory.findById(bookingId).populate(
+    "propertyId"
+  );
 
   // Fetch the booking guest from the database
   const bookingGuest = await BookingGuest.findById(bookingHistory.bookingId);
@@ -1038,50 +1045,53 @@ app.post("/refund", async function (req, res) {
     res.redirect("/bookHistory");
   } catch (error) {
     console.error("Error saving refund:", error);
-    res
-      .status(500)
-      .send({
-        error: "An error occurred while creating the refund request.",
-        details: error.message,
-      });
+    res.status(500).send({
+      error: "An error occurred while creating the refund request.",
+      details: error.message,
+    });
   }
 });
 
-app.get('/refundListGuest', async function (req, res) {
+app.get("/refundListGuest", async function (req, res) {
   if (!req.session.user || !req.session.user.id) {
-    return res.redirect('/login');
+    return res.redirect("/login");
   }
 
   const userId = req.session.user.id;
 
   try {
     const refundList = await Refund.find({ userId: userId })
-      .populate('bookingId')
-      .populate('userId')
-      .populate('propertyId') // Populate propertyId to access property details
+      .populate("bookingId")
+      .populate("userId")
+      .populate("propertyId") // Populate propertyId to access property details
       .exec();
 
     console.log("Refund List:", refundList);
 
-    res.render('refundListGuest', { Refund : refundList });
+    res.render("refundListGuest", { Refund: refundList });
   } catch (error) {
     console.error("Error fetching refund requests", error);
-    res.status(500).send('Error fetching refund requests');
+    res.status(500).send("Error fetching refund requests");
   }
 });
 
 // Route to handle search
-app.get('/search', async function (req, res){
-    const { location, numGuest, checkIn, checkOut } = req.query;
-    
-    // Call the search function here (implement it in the next step)
-    try {
-        const availableProperties = await searchProperties(location, numGuest, checkIn, checkOut);
-        res.render('searchResults', { properties: availableProperties }); // Assuming you have a view called 'searchResults'
-    } catch (error) {
-        console.error('Search Error:', error);
-        res.status(500).send('Server error during property search.');
-    }
+app.get("/search", async function (req, res) {
+  const { location, numGuest, checkIn, checkOut } = req.query;
+
+  // Call the search function here (implement it in the next step)
+  try {
+    const availableProperties = await searchProperties(
+      location,
+      numGuest,
+      checkIn,
+      checkOut
+    );
+    res.render("searchResults", { properties: availableProperties }); // Assuming you have a view called 'searchResults'
+  } catch (error) {
+    console.error("Search Error:", error);
+    res.status(500).send("Server error during property search.");
+  }
 });
 
 const searchProperties = async (location, numGuest, checkIn, checkOut) => {
@@ -1090,68 +1100,160 @@ const searchProperties = async (location, numGuest, checkIn, checkOut) => {
 
   // Find properties that match the location and guest number criteria
   let initialProperties = await PropertyHost.find({
-      address: new RegExp(location, 'i'), // Case-insensitive search for location
-      guestNum: { $gte: Number(numGuest) } // Greater than or equal to numGuest
+    address: new RegExp(location, "i"), // Case-insensitive search for location
+    guestNum: { $gte: Number(numGuest) }, // Greater than or equal to numGuest
   });
 
   // Find bookings that are within the requested date range
   const conflictingBookings = await BookingHistory.find({
-      $or: [
-          { checkin: { $lt: checkOutDate, $gte: checkInDate } }, // Check-in within range
-          { checkout: { $lte: checkOutDate, $gt: checkInDate } }, // Check-out within range
-          { checkin: { $lte: checkInDate }, checkout: { $gte: checkOutDate } } // Encompasses the range
-      ]
+    $or: [
+      { checkin: { $lt: checkOutDate, $gte: checkInDate } }, // Check-in within range
+      { checkout: { $lte: checkOutDate, $gt: checkInDate } }, // Check-out within range
+      { checkin: { $lte: checkInDate }, checkout: { $gte: checkOutDate } }, // Encompasses the range
+    ],
   });
 
   // Extract property IDs from conflicting bookings
-  const bookedPropertyIds = conflictingBookings.map(booking => booking.propertyId.toString());
+  const bookedPropertyIds = conflictingBookings.map((booking) =>
+    booking.propertyId.toString()
+  );
 
   // Filter initialProperties to exclude properties with conflicting bookings
-  const availableProperties = initialProperties.filter(property => 
-      !bookedPropertyIds.includes(property._id.toString())
+  const availableProperties = initialProperties.filter(
+    (property) => !bookedPropertyIds.includes(property._id.toString())
   );
 
   return availableProperties;
 };
 
-app.get('/settlerefund', async function(req, res) {
+app.get("/settlerefund", async function (req, res) {
   try {
-      // Assuming you have logic to fetch refunds from the database
-      const refunds = await Refund.find({}); // Fetch all refunds
+    // Fetch all refunds and populate the property details
+    const refunds = await Refund.find({})
+      .populate("propertyId") // This populates the property details
+      .exec();
 
-      // Render the settleRefund.ejs template with the refunds array
-      res.render('settleRefund', { refunds });
+    // Get the user role from the session
+    const userRole = req.session.userRole;
+
+    // Pass the user role to the EJS template
+    res.render("settleRefund", { refunds, userRole, messages: req.flash() });
   } catch (error) {
-      console.error('Error fetching refunds:', error);
-      res.status(500).send('Internal Server Error');
+    console.error("Error fetching refunds:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-
-
 // Route for accepting a refund
-app.post('/acceptrefund/:refundId', async (req, res) => {
-    const { refundId } = req.params;
-    try {
-        // Find the refund by its ID and update its status to "Accepted"
-        await Refund.findByIdAndUpdate(refundId, { status: 'Accepted' });
-        res.status(200).send({ message: 'Refund request accepted successfully.' });
-    } catch (error) {
-        console.error('Error accepting refund:', error);
-        res.status(500).send({ error: 'An error occurred while accepting the refund request.' });
-    }
+app.post("/acceptrefund/:refundId", async (req, res) => {
+  const { refundId } = req.params;
+  try {
+    // Find the refund by its ID and update its status to "Accepted"
+    await Refund.findByIdAndUpdate(refundId, { status: "Accepted" });
+    req.flash("successAccept", "Refund Accepted Successfully");
+    res.redirect("/settlerefund");
+  } catch (error) {
+    console.error("Error accepting refund:", error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while accepting the refund request." });
+  }
 });
 
 // Route for rejecting a refund
-app.post('/rejectrefund/:refundId', async (req, res) => {
-    const { refundId } = req.params;
-    try {
-        // Find the refund by its ID and update its status to "Rejected"
-        await Refund.findByIdAndUpdate(refundId, { status: 'Rejected' });
-        res.status(200).send({ message: 'Refund request rejected successfully.' });
-    } catch (error) {
-        console.error('Error rejecting refund:', error);
-        res.status(500).send({ error: 'An error occurred while rejecting the refund request.' });
-    }
+app.post("/rejectrefund/:refundId", async (req, res) => {
+  const { refundId } = req.params;
+  try {
+    // Find the refund by its ID and update its status to "Rejected"
+    await Refund.findByIdAndUpdate(refundId, { status: "Rejected" });
+    req.flash("successReject", "Refund Rejected Successfully");
+    res.redirext("/settlerefund");
+  } catch (error) {
+    console.error("Error rejecting refund:", error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while rejecting the refund request." });
+  }
 });
 
+app.get("/propertyRatings", async function (req, res) {
+  try {
+    // Assuming you have a way to identify the current user's ID (e.g., from session or token)
+    // and that the current user is a host.
+    const hostId = req.session.user.id; // or however you're storing/accessing the logged-in user's ID
+    console.log("Host ID:", hostId);
+
+    // First, find all properties owned by the current host
+    const properties = await PropertyHost.find({ hostId: hostId });
+    console.log("Properties:", properties);
+
+    // Extract property IDs to use in querying ratings
+    const propertyIds = properties.map((property) => property._id);
+    console.log("Property IDs:", propertyIds);
+
+    // Fetch all ratings for these properties and populate necessary details
+    const propertyRatings = await PropertyRating.find({
+      propertyId: { $in: propertyIds },
+    })
+      .populate("propertyId") // Populates the property details
+      .populate("userId", "name") // Populates the user details, assuming you want to show the user's name
+      .exec();
+
+    // Since we now have property ratings with populated details, we can pass these directly to the EJS template
+    res.render("propertyRatings", { propertyRatings });
+  } catch (error) {
+    console.error("Error fetching property ratings:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/financialReport", async function (req, res) {
+  try {
+    const hostId = req.session.user.id; // Ensure the host is logged in and you have their ID
+
+    // Find all properties owned by the host
+    const properties = await PropertyHost.find({ hostId: hostId });
+    const propertyIds = properties.map((property) => property._id);
+
+    console.log("Properties:", properties);
+    console.log("Property IDs:", propertyIds);
+
+    let revenueData = [];
+
+    // Loop through each propertyId to aggregate bookings
+    for (const propertyId of propertyIds) {
+      const totalRevenueForProperty = await BookingHistory.aggregate([
+        {
+          $match: {
+            propertyId: propertyId, // Ensure this matches correctly with your data types
+          },
+        },
+        {
+          $group: {
+            _id: "$propertyId",
+            totalRevenue: { $sum: "$totalPrice" },
+            bookingCount: { $sum: 1 },
+          },
+        },
+      ]);
+
+      if (totalRevenueForProperty.length > 0) {
+        const propertyInfo = properties.find((p) => p._id.equals(propertyId));
+        revenueData.push({
+          propertyName: propertyInfo.name,
+          bookingCount: totalRevenueForProperty[0].bookingCount,
+          totalRevenue: totalRevenueForProperty[0].totalRevenue,
+        });
+      }
+    }
+
+    // Now, revenueData contains an array of objects with propertyName, bookingCount, and totalRevenue for each property
+    console.log("Revenue Data:", revenueData);
+
+    // Render the financialReport view with the revenue data
+    res.render("financialReport", { revenueData });
+  } catch (error) {
+    console.error("Error fetching revenue data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});

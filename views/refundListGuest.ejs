@@ -1,33 +1,41 @@
 <%- include('header', { pageTitle: 'Your Refund Requests' }) %>
 
-<div class="propBackground d-flex flex-column">
-    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 0;">Refund Requests</h3>
-
-    <% if(Refund && Refund.length > 0) { %>
-        <% Refund.forEach(request => { %>
-            <div class="propList d-flex m-3 p-4 align-items-stretch row" style="background-color: #fefbf4; border: solid #dbc48f; border-radius: 20px;">
-                <div class="col-md-4 d-flex align-items-center" style="padding: 0; height:100%">
-                    <% if (request.propertyId.images && request.propertyId.images.length > 0) { %>
-                        <img src="data:<%= request.propertyId.images[0].contentType %>;base64,<%= request.propertyId.images[0].data.toString('base64') %>" alt="Property Image" class="img-fluid h-100" style="border-radius: 20px; object-fit: cover; width: 100%;">
-                    <% } else { %>
-                        <p>No Image</p>
-                    <% } %>                
+<div class="propBackground">
+    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 20px;">Refund Requests</h3>
+    <div class="container mt-0">
+        <% if(Refund && Refund.length > 0) { %>
+            <% Refund.forEach(request => { %>
+                <div class="card mb-3 d-flex flex-row" style="border-radius: 20px; overflow: hidden; align-items: center;">
+                    <div class="row g-0 flex-grow-1">
+                        <% if (request.propertyId.images && request.propertyId.images.length > 0) { %>
+                            <div class="col-md-4">
+                                <img src="data:<%= request.propertyId.images[0].contentType %>;base64,<%= request.propertyId.images[0].data.toString('base64') %>" class="img-fluid rounded-start" alt="Property Image" style="height: 100%; width: 100%; object-fit: cover;">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h2 class="card-title"><%= request.propertyId.name %></h2>
+                                    <p class="card-text"><strong>Guest Name:</strong> <%= request.userId.name %></p>
+                                    <p class="card-text"><strong>Refund Amount Requested:</strong> RM <%= request.refundAmount %></p>
+                                    <p class="card-text"><strong>Reason:</strong> <%= request.reason %></p>
+                                    <p class="card-text"><strong>Status:</strong> <%= request.status %></p>
+                                    <p class="card-text"><strong>Requested On:</strong> <%= new Date(request.timestamp).toDateString() %></p>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <!-- If there's no image, you might adjust the layout accordingly -->
+                        <% } %>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-center align-items-center">
+                        <img src="<% if (request.status === 'Pending') { %>uploads/status/pending.png<% } else if (request.status === 'Accepted') { %>uploads/status/success.png<% } else if (request.status === 'Rejected') { %>uploads/status/rejected.png<% } %>" alt="Status Icon" style="height: 100px; width: 100px;">
+                    </div>
                 </div>
-                <div class="col-md-8 d-flex flex-column justify-content-center" style="padding-left: 20px;">
-                    <h1><%= request.propertyId.name %></h1>
-                    <p>Guest Name: <%= request.userId.name %></p>
-                    <p>Refund Amount Requested: RM <%= request.refundAmount %></p>
-                    <p>Reason: <%= request.reason %></p>
-                    <p>Status: <%= request.status %></p>
-                    <p>Requested On: <%= new Date(request.timestamp).toDateString() %></p>
-                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="d-flex justify-content-center align-items-center" style="margin-top:50px;">
+                <p>You have no refund requests.</p>
             </div>
-        <% }); %>
-    <% } else { %>
-        <div class="d-flex justify-content-center align-items-center" style="margin-top:50px;">
-            <p>You have no refund requests.</p>
-        </div>
-    <% } %>
+        <% } %>
+    </div>
 </div>
 
 <%- include('footer') %>

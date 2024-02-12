@@ -1,0 +1,22 @@
+<%- include('headerHost', { pageTitle: 'Financial Report | Vacay' }) %>
+
+<div class="container mt-4">
+    <h1>Host Revenue Report</h1>
+    <% if (revenueData.length > 0) { %>
+        <% revenueData.forEach(function(data) { %>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <%= data.propertyName %>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Revenue: RM<%= data.totalRevenue.toFixed(2) %></h5>
+                    <p class="card-text">Number of Bookings: <%= data.bookingCount %></p>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>No revenue data available.</p>
+    <% } %>
+</div>
+
+<%- include('footer.ejs') %>
