@@ -554,3 +554,23 @@ line-height: 1.5;
     margin-bottom: 5px;
     align-self: center;
 }
+
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label.star {
+    color: lightgray;
+    font-size: 100px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.star-rating input[type="radio"]:checked ~ label.star {
+    color: gold;
+}

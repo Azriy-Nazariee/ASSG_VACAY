@@ -107,12 +107,21 @@ const bookingHistorySchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
+const propertyRatingSchema = new mongoose.Schema({
+  propertyId: { type: mongoose.Schema.Types.ObjectId, ref: "PropertyHost" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "VacayGuest" },
+  rating: { type: Number, min: 1, max: 5, required: true },
+  review: String,
+  timestamp: { type: Date, default: Date.now },
+});
+
 const VacayGuest = mongoose.model("VacayGuest", vacayGuestSchema);
 const VacayHost = mongoose.model("VacayHost", vacayHostSchema);
 const VacayAdmin = mongoose.model("VacayAdmin", vacayAdminSchema);
 const PropertyHost = mongoose.model("PropertyHost", propertyHostSchema);
 const BookingGuest = mongoose.model("BookingGuest", bookingGuestSchema);
 const BookingHistory = mongoose.model("BookingHistory", bookingHistorySchema);
+const PropertyRating = mongoose.model("PropertyRating", propertyRatingSchema);
 
 const Admin = new VacayAdmin({
   email: "vacayAdmin@gmail.com",
@@ -762,3 +771,51 @@ app.post("/editGuestDetails", upload.single("profilePic"), async function (req, 
     }
   }
 );
+
+// GET route to fetch all ratings
+app.get('/propRating/:bookingHistoryId', async function (req, res) {
+  const bookingHistoryId = req.params.bookingHistoryId;
+  console.log('Fetching booking history for ID:', bookingHistoryId);
+
+  try {
+    // Assuming you've correctly populated 'propertyId'
+    const bookingHistory = await BookingHistory.findById(bookingHistoryId).populate('propertyId');
+    console.log('Booking History:', bookingHistory);
+
+    if (bookingHistory && bookingHistory.propertyId) {
+      // Directly using 'propertyId' here assuming it's the populated property document
+      const propertyHost = bookingHistory.propertyId;
+      console.log('Property Host:', propertyHost);
+
+      // Make sure to pass the object with a key that matches your template's expectation
+      res.render("propRating", { propertyHost: propertyHost });
+    } else {
+      res.status(404).send("Booking history not found or property not associated");
+    }
+  } catch (error) {
+    console.error('Error fetching booking history or property:', error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+
+// POST route to create a new rating
+app.post('/ratings/:propertyId', async function (req, res) {
+  const propertyId = req.params.propertyId;
+  const property = await PropertyHost.findById(propertyId);
+
+  const newRating = new PropertyRating({
+    propertyId: req.body.propertyId,
+    userId: req.body.userId,
+    rating: req.body.rating,
+    review: req.body.review,
+  });
+
+  try {
+    const savedRating = await newRating.save();
+    //wanna update the database with the new rating
+  } catch (err) {
+    res.status(400).send('Bad Request');
+  }
+});
