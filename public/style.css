@@ -622,4 +622,10 @@ line-height: 1.5;
     padding-bottom: 20px;
 }
 
+.card-img-top{
+    width:200px;
+    height:200px;
+    align-self: center;
+}
+
 
