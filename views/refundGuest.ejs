@@ -1,0 +1,46 @@
+<%- include('header', { pageTitle: 'Refund | Vacay' }) %>
+
+<div class="propBackground d-flex flex-column">
+    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 0;">Refund
+    </h3>
+
+    <div class="propList d-flex m-3 p-4 align-items-stretch row"
+        style="background-color: #fefbf4; border: solid #dbc48f; border-radius: 20px;">
+        <div class="col-md-4 d-flex align-items-center" style="padding: 0; height:100%">
+            <% if (bookingHistory.propertyId.images && bookingHistory.propertyId.images.length> 0 && bookingHistory.propertyId.images[0] &&
+                bookingHistory.propertyId.images[0].contentType && bookingHistory.propertyId.images[0].data) { %>
+                <img src="data:<%= bookingHistory.propertyId.images[0].contentType %>;base64,<%= bookingHistory.propertyId.images[0].data.toString('base64') %>"
+                    alt="Property Image" class="img-fluid h-100"
+                    style="height:100%;border-radius: 20px; object-fit: cover; width: 100%;">
+                <% } else { %>
+                    <p>No Image</p>
+                    <% } %>
+        </div>
+        <div class="col-md-8 d-flex flex-column justify-content-center" style="padding-left: 20px;">
+            <h1>
+                <%= bookingHistory.propertyId.name %>
+            </h1>
+            <h3>Guest Name: <%= bookingGuest.name %></h3>
+            <h3>Check-in Date: <%= bookingGuest.checkin ? bookingGuest.checkin.toDateString() : 'N/A' %></h3>
+            <h3>Check-out Date: <%= bookingGuest.checkout ? bookingGuest.checkout.toDateString() : 'N/A' %></h3>
+            <h3>Total Guest: <%= bookingGuest.guestNum %> Guest</h3>
+            <h3>Total Price: RM <%= bookingGuest.totalPrice %></h3>
+            <h3>Location: <%= bookingHistory.propertyId.address %>
+            </h3>
+        </div>
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center mt-5">
+        <form action="/refund" method="POST" style="width:50%">
+            <input type="hidden" name="bookingId" value="<%= bookingHistory._id %>">
+            <div class="form-group text-center">
+                <h3>Reason For Refund: </h3>
+                <input type="text" class="form-control mb-5" id="feedback" name="feedback" placeholder="Your Reasons">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="viewBtn mb-5" style="font-size: medium;">Submit</button>
+            </div>
+        </form>
+    </div>        
+</div>
+
+<%- include('footer') %>

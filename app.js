@@ -115,6 +115,15 @@ const propertyRatingSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
+const refundBookingSchema = new mongoose.Schema({
+  bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "BookingGuest", required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "VacayGuest", required: true },
+  refundAmount: { type: Number, required: true },
+  reason: { type: String, required: true },
+  status: { type: String, default: "Pending" },
+  timestamp: { type: Date, default: Date.now },
+});
+
 const VacayGuest = mongoose.model("VacayGuest", vacayGuestSchema);
 const VacayHost = mongoose.model("VacayHost", vacayHostSchema);
 const VacayAdmin = mongoose.model("VacayAdmin", vacayAdminSchema);
@@ -122,6 +131,7 @@ const PropertyHost = mongoose.model("PropertyHost", propertyHostSchema);
 const BookingGuest = mongoose.model("BookingGuest", bookingGuestSchema);
 const BookingHistory = mongoose.model("BookingHistory", bookingHistorySchema);
 const PropertyRating = mongoose.model("PropertyRating", propertyRatingSchema);
+const Refund = mongoose.model("Refund", refundBookingSchema);
 
 const Admin = new VacayAdmin({
   email: "vacayAdmin@gmail.com",
@@ -519,7 +529,7 @@ app.post("/bookingProp/:propertyId", async function (req, res) {
     if (property) {
       // Assuming you have a BookingGuest model
       const newBooking = new BookingGuest({
-        name: req.session.user.name, // Assuming you store user's name in the session
+        name: req.body.guestName, 
         phoneNum: req.session.user.phoneNum, // Assuming you store user's phone number in the session
         checkin: req.body.checkIn,
         checkout: req.body.checkOut,
@@ -878,8 +888,6 @@ app.get('/propRating/:bookingHistoryId', async function (req, res) {
   }
 });
 
-
-
 // POST route to create a new rating
 app.post('/ratings/:propertyId', async function (req, res) {
   const propertyId = req.params.propertyId;
@@ -897,5 +905,44 @@ app.post('/ratings/:propertyId', async function (req, res) {
     //wanna update the database with the new rating
   } catch (err) {
     res.status(400).send('Bad Request');
+  }
+});
+
+app.get('/refundGuest/:bookingHistoryId', async function (req, res) {
+  const bookingHistoryId = req.params.bookingHistoryId;
+  console.log('Fetching booking history for ID:', bookingHistoryId);
+
+  // Fetch the booking history from the database
+  const bookingHistory = await BookingHistory.findById(bookingHistoryId).populate('propertyId');
+
+  // Fetch the booking guest from the database
+  const bookingGuest = await BookingGuest.findById(bookingHistory.bookingId);
+
+  // Render the refundGuest view with the booking details and booking guest details
+  res.render('refundGuest', { bookingHistory, bookingGuest });
+});
+
+app.post('/refund', async function(req, res) {
+  // Extract refund details from the request body
+  const { bookingId, userId, refundAmount, reason } = req.body;
+
+  // Create a new refund
+  const refund = new Refund({
+    bookingId,
+    userId,
+    refundAmount,
+    reason,
+    status: "Pending", // status is always "Pending" when a refund is first created
+  });
+
+  try {
+    // Save the refund to the database
+    await refund.save();
+
+    // Send a success response
+    res.status(201).send({ message: 'Refund request created successfully.' });
+  } catch (error) {
+    // Send an error response if something goes wrong
+    res.status(500).send({ error: 'An error occurred while creating the refund request.' });
   }
 });
