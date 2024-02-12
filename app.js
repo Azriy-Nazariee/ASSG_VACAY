@@ -6,6 +6,7 @@ const session = require("express-session");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const { allowedNodeEnvironmentFlags } = require("process");
 
 mongoose.connect("mongodb://127.0.0.1:27017/vacayDB");
 
@@ -1112,3 +1113,35 @@ const searchProperties = async (location, numGuest, checkIn, checkOut) => {
 
   return availableProperties;
 };
+
+app.get('/settleRefund', async function (req, res) {
+  res.render("settleRefund");
+});
+
+
+// Route for accepting a refund
+app.post('/acceptrefund/:refundId', async (req, res) => {
+    const { refundId } = req.params;
+    try {
+        // Find the refund by its ID and update its status to "Accepted"
+        await Refund.findByIdAndUpdate(refundId, { status: 'Accepted' });
+        res.status(200).send({ message: 'Refund request accepted successfully.' });
+    } catch (error) {
+        console.error('Error accepting refund:', error);
+        res.status(500).send({ error: 'An error occurred while accepting the refund request.' });
+    }
+});
+
+// Route for rejecting a refund
+app.post('/rejectrefund/:refundId', async (req, res) => {
+    const { refundId } = req.params;
+    try {
+        // Find the refund by its ID and update its status to "Rejected"
+        await Refund.findByIdAndUpdate(refundId, { status: 'Rejected' });
+        res.status(200).send({ message: 'Refund request rejected successfully.' });
+    } catch (error) {
+        console.error('Error rejecting refund:', error);
+        res.status(500).send({ error: 'An error occurred while rejecting the refund request.' });
+    }
+});
+
