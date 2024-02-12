@@ -141,17 +141,52 @@ const BookingHistory = mongoose.model("BookingHistory", bookingHistorySchema);
 const PropertyRating = mongoose.model("PropertyRating", propertyRatingSchema);
 const Refund = mongoose.model("Refund", refundBookingSchema);
 
-const Admin = new VacayAdmin({
-  email: "vacayAdmin@gmail.com",
-  password: "753951Admin",
-});
-Admin.save();
+// Assuming `VacayAdmin` is a model for managing admin accounts
 
-const Admin2 = new VacayAdmin({
-  email: "admin@vacay.com",
-  password: "0000",
-});
-Admin2.save();
+// Create the first admin account
+VacayAdmin.findOne({ email: "vacayAdmin@gmail.com" })
+  .then(async (existingAdmin) => {
+    if (!existingAdmin) {
+      const admin = new VacayAdmin({
+        email: "vacayAdmin@gmail.com",
+        password: "753951Admin",
+      });
+      try {
+        await admin.save();
+        console.log("First admin account created successfully.");
+      } catch (saveErr) {
+        console.error("Error creating first admin account:", saveErr);
+      }
+    } else {
+      console.log("First admin account already exists.");
+    }
+  })
+  .catch((err) => {
+    console.error("Error checking for existing admin:", err);
+  });
+
+// Create the second admin account
+VacayAdmin.findOne({ email: "admin@vacay.com" })
+  .then(async (existingAdmin) => {
+    if (!existingAdmin) {
+      const admin = new VacayAdmin({
+        email: "admin@vacay.com",
+        password: "0000",
+      });
+      try {
+        await admin.save();
+        console.log("Second admin account created successfully.");
+      } catch (saveErr) {
+        console.error("Error creating second admin account:", saveErr);
+      }
+    } else {
+      console.log("Second admin account already exists.");
+    }
+  })
+  .catch((err) => {
+    console.error("Error checking for existing admin:", err);
+  });
+
 
 app.get("/", function (req, res) {
   res.render("welcome");
