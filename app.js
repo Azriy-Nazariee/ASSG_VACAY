@@ -50,7 +50,7 @@ const vacayGuestSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   profilePic: {
     type: String,
-    default: "",
+    default: "uploads\\defaultPic\\guest.jpg",
   },
 });
 
@@ -64,7 +64,7 @@ const vacayHostSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   profilePic: {
     type: String,
-    default: "",
+    default: 'uploads\\defaultPic\\host.jpg',
   },
 });
 
@@ -326,7 +326,7 @@ app.post("/guestSign", async function (req, res) {
     });
 
     await newGuest.save();
-    res.redirect("/mainView");
+    res.redirect("/login");
   } catch (err) {
     console.log(err);
     res.redirect("/login");
