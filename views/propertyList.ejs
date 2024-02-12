@@ -4,6 +4,7 @@
     <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 0;">Property List</h3>
 
     <% propertyHosts.forEach(propertyHost => { %>
+      <% if (propertyHost.hostId.toString() === userId) { %>
         <div class="propList d-flex m-3 p-4 align-items-stretch row" style="background-color: #fefbf4; border: solid #dbc48f; border-radius: 20px;">
           <div class="col-md-4 d-flex align-items-center" style="padding: 0; height:100%">
             <% if (propertyHost.images && propertyHost.images.length > 0 && propertyHost.images[0] && propertyHost.images[0].contentType && propertyHost.images[0].data) { %>
@@ -23,6 +24,7 @@
             </form>
           </div>
         </div>
+        <% } %>
       <% }); %>
       
     
