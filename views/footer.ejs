@@ -38,3 +38,15 @@
             <p>© 2024 Vacay, Sdn. Bhd. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const propertyCards = document.querySelectorAll('figure');
+            propertyCards.forEach((card, index) => {
+                // Optional: Delay the animation of each card to create a "stagger" effect
+                setTimeout(() => {
+                    card.classList.add('animate-fadeInUp');
+                }, 100 * index); // Adjust time as needed
+            });
+        });
+    </script>
+</body>    

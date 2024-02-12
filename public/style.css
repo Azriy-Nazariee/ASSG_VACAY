@@ -577,3 +577,55 @@ line-height: 1.5;
 .star-rating input[type="radio"]:checked ~ label.star {
     color: gold;
 }
+
+
+@keyframes fadeInUp {
+    from {
+        transform: translate3d(0, 40px, 0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+.animate-fadeInUp {
+    animation-name: fadeInUp;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.navigation-card {
+    cursor: pointer;
+    margin-bottom: 20px; /* Space between cards */
+    transition: transform 0.2s; /* Animation for hover effect */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Add shadows */
+}
+
+.navigation-card:hover {
+    transform: scale(1.05); /* Slightly enlarge cards on hover */
+}
+
+.card-body h5 {
+    color: #412f81; /* Title color */
+}
+
+.card-body p {
+    color: #6c757d; /* Text color */
+}
+
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.card-img-top{
+    width:200px;
+    height:200px;
+    align-self: center;
+}
+
+
