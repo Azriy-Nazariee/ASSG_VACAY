@@ -25,16 +25,17 @@
             <h3>Check-out Date: <%= bookingGuest.checkout ? bookingGuest.checkout.toDateString() : 'N/A' %></h3>
             <h3>Total Guest: <%= bookingGuest.guestNum %> Guest</h3>
             <h3>Total Price: RM <%= bookingGuest.totalPrice %></h3>
-            <h3>Location: <%= bookingHistory.propertyId.address %>
-            </h3>
+            <h3>Location: <%= bookingHistory.propertyId.address %></h3>
         </div>
     </div>
     <div class="d-flex flex-column align-items-center justify-content-center mt-5">
         <form action="/refund" method="POST" style="width:50%">
-            <input type="hidden" name="bookingId" value="<%= bookingHistory._id %>">
+            <input type="hidden" name="bookingId" id="bookingId" value="<%= bookingHistory._id %>">
+            <input type="hidden" name="totalPrice" id="totalPrice" value="<%= bookingGuest.totalPrice %>">
+            <input type="hidden" name="userId" id="userId" value="<%= bookingHistory.userId %>">
             <div class="form-group text-center">
                 <h3>Reason For Refund: </h3>
-                <input type="text" class="form-control mb-5" id="feedback" name="feedback" placeholder="Your Reasons">
+                <input type="text" class="form-control mb-5" id="reason" name="reason" placeholder="Your Reasons">
             </div>
             <div class="text-center">
                 <button type="submit" class="viewBtn mb-5" style="font-size: medium;">Submit</button>

@@ -29,7 +29,8 @@
         <div class="d-flex flex-column align-items-center justify-content-center mt-5">
             <form action="/ratings/<%= propertyHost._id %>" method="POST" style="width:50%">
                 <input type="hidden" name="propertyId" value="<%= propertyHost._id %>">
-                <div class="form-group text-center">
+                <input type="hidden" name="userId" value="<%= userId %>"> <!-- Add this line -->
+                <div class="form-group" style="text-align: center;">
                     <h3>How Would You Rate Your Stay Here?</h3>
                     <div class="star-rating">
                         <input type="radio" id="5-stars" name="rating" value="5" />
@@ -44,8 +45,8 @@
                         <label for="1-star" class="star">&#9733;</label>
                     </div>
                 </div>
-                    <h3>Do You Have Any Feedback On This Property?</h3>
-                    <input type="text" class="form-control mb-5" id="review" name="review" placeholder="Your Feedback">
+                    <h3 style="text-align: center;">Do You Have Any Feedback On This Property?</h3>
+                    <textarea class="form-control mb-5" id="review" name="review" placeholder="Your Feedback"></textarea>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="viewBtn mb-5" style="font-size: medium;">Submit</button>
