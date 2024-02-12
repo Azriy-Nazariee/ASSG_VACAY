@@ -2,12 +2,12 @@
 
 <div class="propBackground">
     <% if (user && user.type === 'guest') { %>
-        <!-- Display only for guests -->
-        <!--h3 class="p-2" style="text-align: center;">Dear Guest, Welcome to Vacay</h3>-->
-
-        <h1 style="font-size: 50px; text-align: center;">Book Unique Homes All Over Malaysia.</h1>
-        <h2 style="font-size: 30px; margin-top: 0%; text-align: center;">Faster, Easier, Reliable</h2>
-
+        <h1 style="font-size: 50px; text-align: center;">Welcome to Vacay!</h1>
+        <h2 style="font-size: 30px; margin-top: 0%; text-align: center; margin-bottom:50px">Our Valuable Guest</h2>
+        <div style="width:100%; background-color: white; padding-top: 20px;padding-bottom: 20px; box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);">
+            <h1 style="font-size: 50px; text-align: center;">Book Unique Homes From All Over Malaysia.</h1>
+            <h2 style="font-size: 30px; margin-top: 0%; text-align: center;">Faster, Easier, Reliable</h2>
+        </div>
         <div class="grid-container">
             <% propertyHosts.forEach(propertyHost => { %>
                 <figure>

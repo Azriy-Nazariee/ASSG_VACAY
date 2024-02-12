@@ -1,0 +1,44 @@
+<%- include('header', { pageTitle: 'Your Feedback | Vacay' }) %>
+
+<div class="propBackground">
+    <h3 class="p-2" style="padding-top: 30px; margin-left: 70px; font-size: 50px; margin-bottom: 20px;">Your Feedback</h3>
+    <div class="container mt-0">
+        <div class="card mb-3" style="border-radius: 20px; overflow: hidden; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <% if (propertyHost.images && propertyHost.images.length > 0 && propertyHost.images[0].contentType && propertyHost.images[0].data) { %>
+                        <img src="data:<%= propertyHost.images[0].contentType %>;base64,<%= propertyHost.images[0].data.toString('base64') %>"
+                            class="img-fluid rounded-start" alt="Property Image" style="height: 100%; width: 100%; object-fit: cover;">
+                    <% } else { %>
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <p class="text-muted">No Image Available</p>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body" style="margin-left: 20px">
+                        <h2 class="card-title"><%= propertyHost.name %></h2>
+                        <p class="card-text"><strong>Total Guest:</strong> <%= propertyHost.guestNum %> Guest</p>
+                        <p class="card-text"><strong>Price:</strong> RM <%= propertyHost.price %>/Night</p>
+                        <p class="card-text"><strong>Location:</strong> <%= propertyHost.address %></p>
+                        <hr>
+                        <h3>Your Rating</h3>
+                        <div style="margin-bottom: 20px;">
+                            <% for(let i = 0; i < 5; i++) { %>
+                                <% if(i < existingRating.rating) { %>
+                                    <span style="font-size: 24px;">★</span> <!-- Filled star with larger font size -->
+                                <% } else { %>
+                                    <span style="font-size: 24px;">☆</span> <!-- Empty star with larger font size -->
+                                <% } %>
+                            <% } %>
+                        </div>                        
+                        <h3>Your Feedback</h3>
+                        <p><%= existingRating.review %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer') %>

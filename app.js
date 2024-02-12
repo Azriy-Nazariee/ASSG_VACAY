@@ -375,12 +375,44 @@ app.get("/mainHost", async function (req, res) {
   }
 });
 
-app.get("/settingsHost", function (req, res) {
-  res.render("settingHost");
-});
-app.get("/settingsGuest", function (req, res) {
-  res.render("settingGuest");
-});
+app.get("/settingsHost", async function (req, res) {
+  const user = req.session.user;
+
+    if (user && user.type === "host") {
+      // Assuming you have a VacayGuest model
+      const vacayHost = await VacayHost.findOne({ _id: user.id });
+
+      if (vacayHost) {
+        res.render("settingHost.ejs", {
+          profileName: vacayHost.name,
+          profilePic: vacayHost.profilePic,
+          // Add other details as needed
+        });
+      } else {
+        // Handle the case when VacayGuest details are not found
+        console.log("VacayHost details not found");
+        res.status(404).send("VacayHost details not found");
+}}});
+
+app.get("/settingsGuest", async function (req, res) {
+  const user = req.session.user;
+
+    if (user && user.type === "guest") {
+      // Assuming you have a VacayGuest model
+      const vacayGuest = await VacayGuest.findOne({ _id: user.id });
+
+      if (vacayGuest) {
+        res.render("settingGuest.ejs", {
+          profileName: vacayGuest.name,
+          profilePic: vacayGuest.profilePic,
+          // Add other details as needed
+        });
+      } else {
+        // Handle the case when VacayGuest details are not found
+        console.log("VacayGuest details not found");
+        res.status(404).send("VacayGuest details not found");
+}}});
+
 
 app.get("/settingsAdmin", function (req, res) {
   res.render("settingAdmin");
@@ -858,35 +890,31 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.post(
-  "/editGuestDetails",
-  upload.single("profilePic"),
-  async function (req, res) {
-    try {
-      const guestId = req.session.user && req.session.user.id; // Assuming the guest's ID is stored in session
-      if (!guestId) {
-        return res.status(401).send("User not logged in");
-      }
+app.post("/editGuestDetails", upload.single('profilePic'), async function (req, res) {
+  try {
+    const userId = req.session.user.id; // Assuming user ID is stored in session
+    const { name, email, phoneNum } = req.body;
+    let updateData = { name, email, phoneNum };
 
-      const updateData = {
-        name: req.body.name,
-        email: req.body.email,
-        phoneNum: req.body.phoneNum,
-      };
-
-      if (req.file) {
-        updateData.profilePic = req.file.path; // Save the path of the uploaded file
-      }
-
-      await VacayGuest.findByIdAndUpdate(guestId, updateData);
-
-      res.redirect("/profileGuest");
-    } catch (err) {
-      console.log(err);
-      res.redirect("/editProfile"); // Assuming you have a route for editing profiles
+    if (req.file) {
+      // If a file was uploaded, update the user profile with the new image path
+      // For simplicity, storing the path directly; in a real app, you might store a URL or use a cloud storage service
+      const profilePicPath = req.file.path;
+      updateData.profilePic = profilePicPath;
     }
+
+    console.log("Updating user profile with:", updateData);
+
+    await VacayGuest.findByIdAndUpdate(userId, updateData);
+
+    // Redirect back to the edit profile page or to a success page
+    res.redirect("/profileGuest");
+  } catch (error) {
+    console.error("Error updating profile details:", error);
+    res.status(500).send("Internal Server Error");
   }
-);
+});
+
 
 app.post(
   "/editHostDetails",
@@ -918,29 +946,42 @@ app.post(
   }
 );
 
-// GET route to fetch booking history and render rating page
 app.get("/propRating/:bookingHistoryId", async function (req, res) {
   const bookingHistoryId = req.params.bookingHistoryId;
-
+  console.log("Fetching booking history for ID:", bookingHistoryId);
+  
   try {
     const bookingHistory = await BookingHistory.findById(bookingHistoryId)
       .populate("propertyId")
-      .populate("userId"); // Make sure to populate userId if it's a reference
-    if (bookingHistory && bookingHistory.propertyId) {
-      const propertyHost = bookingHistory.propertyId;
-      const userId = bookingHistory.userId; // Assuming this is populated correctly
-      // Pass both propertyHost and userId to the template
-      res.render("propRating", { propertyHost, userId: userId._id }); // Pass the userId to the template
+      .populate("userId");
+
+    console.log("Booking History:", bookingHistory);
+      
+    if (!bookingHistory || !bookingHistory.propertyId) {
+      return res.status(404).send("Booking history not found or property not associated");
+    }
+    
+    const existingRating = await PropertyRating.findOne({
+      userId: bookingHistory.userId,
+      propertyId: bookingHistory.propertyId
+    });
+
+    console.log("Existing Rating:", existingRating);
+    
+    if (existingRating) {
+      // Rating exists, pass it to the template to display it instead of the form
+      res.render("propRatingView", { propertyHost: bookingHistory.propertyId, userId: bookingHistory.userId._id, existingRating });
     } else {
-      res
-        .status(404)
-        .send("Booking history not found or property not associated");
+      // No existing rating, render form to allow rating
+      res.render("propRating", { propertyHost: bookingHistory.propertyId, userId: bookingHistory.userId._id });
     }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Internal server error");
-  }
-});
+    console.error("An error occurred:", error);
+    res.status(500).send("An internal server error occurred");
+}
+}
+);
+
 
 // POST route to create a new rating
 app.post("/ratings/:propertyId", async function (req, res) {
@@ -1128,21 +1169,35 @@ const searchProperties = async (location, numGuest, checkIn, checkOut) => {
 
 app.get("/settlerefund", async function (req, res) {
   try {
+    // Initialize userRole with a default value
+    let userRole = "guest"; // Assuming 'guest' as default, adjust as necessary
+
     // Fetch all refunds and populate the property details
-    const refunds = await Refund.find({})
-      .populate("propertyId") // This populates the property details
-      .exec();
+    const refunds = await Refund.find({}).populate("propertyId").exec();
 
-    // Get the user role from the session
-    const userRole = req.session.userRole;
+    // Check if user session exists and the user type is 'host'
+    if (req.session.user && req.session.user.type === "host") {
+      const user = req.session.user; // Use the user from the session
 
-    // Pass the user role to the EJS template
+      // Fetch host details based on the session user ID
+      const vacayHost = await VacayHost.findOne({ _id: user.id });
+
+      // If a matching host is found, adjust the user role
+      if (vacayHost) {
+        userRole = "host";
+      }
+    }
+
+    console.log("User Role:", userRole);
+
+    // Pass the user role and refunds to the EJS template
     res.render("settleRefund", { refunds, userRole, messages: req.flash() });
   } catch (error) {
     console.error("Error fetching refunds:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 // Route for accepting a refund
 app.post("/acceptrefund/:refundId", async (req, res) => {
@@ -1209,51 +1264,45 @@ app.get("/propertyRatings", async function (req, res) {
 
 app.get("/financialReport", async function (req, res) {
   try {
-    const hostId = req.session.user.id; // Ensure the host is logged in and you have their ID
-
-    // Find all properties owned by the host
+    const hostId = req.session.user.id;
     const properties = await PropertyHost.find({ hostId: hostId });
     const propertyIds = properties.map((property) => property._id);
 
-    console.log("Properties:", properties);
-    console.log("Property IDs:", propertyIds);
-
     let revenueData = [];
 
-    // Loop through each propertyId to aggregate bookings
     for (const propertyId of propertyIds) {
-      const totalRevenueForProperty = await BookingHistory.aggregate([
-        {
-          $match: {
-            propertyId: propertyId, // Ensure this matches correctly with your data types
-          },
+      const bookings = await BookingHistory.aggregate([
+        { $match: { propertyId: propertyId } },
+        { $lookup: {
+            from: "bookingguests", // The collection to join with, ensure this name matches your MongoDB collection name for BookingGuest documents
+            localField: "bookingId", // Field from BookingHistory
+            foreignField: "_id", // Corresponding field in BookingGuest
+            as: "bookingInfo" // The array to populate with the result of the join
+          }
         },
-        {
-          $group: {
+        { $unwind: "$bookingInfo" }, // Deconstructs the bookingInfo array
+        { $group: {
             _id: "$propertyId",
-            totalRevenue: { $sum: "$totalPrice" },
-            bookingCount: { $sum: 1 },
-          },
+            totalRevenue: { $sum: "$bookingInfo.totalPrice" },
+            bookingCount: { $sum: 1 }
+          }
         },
       ]);
 
-      if (totalRevenueForProperty.length > 0) {
+      if (bookings.length > 0) {
         const propertyInfo = properties.find((p) => p._id.equals(propertyId));
         revenueData.push({
           propertyName: propertyInfo.name,
-          bookingCount: totalRevenueForProperty[0].bookingCount,
-          totalRevenue: totalRevenueForProperty[0].totalRevenue,
+          bookingCount: bookings[0].bookingCount,
+          totalRevenue: bookings[0].totalRevenue,
         });
       }
     }
 
-    // Now, revenueData contains an array of objects with propertyName, bookingCount, and totalRevenue for each property
-    console.log("Revenue Data:", revenueData);
-
-    // Render the financialReport view with the revenue data
     res.render("financialReport", { revenueData });
   } catch (error) {
     console.error("Error fetching revenue data:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+

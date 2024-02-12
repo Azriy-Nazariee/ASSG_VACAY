@@ -11,14 +11,12 @@
                 <form action="/editHostDetails" method="POST" enctype="multipart/form-data" class="profile p-4 position-absolute top-50 start-50 translate-middle">
                     <input type="file" name="profilePic" id="profilePic" class="d-none" onchange="previewProfileImage(event)">
                     <label for="profilePic" class="btn" style="background-color: #a768a3; color: white; margin-top: 20px;">Upload</label>
-                </form>
             </div>
             <h1 style="font-size: 50px;"><%= profileName %></h1>
         </div>
 
         <!-- Profile Details Form -->
         <div class="appbox w-60">
-            <form class="profile p-5" action="/editHostDetails" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <h2> Name: </h2>
                     <input type="text" class="details" style="background-color: white; color: #a768a3;" name="name" value="<%= profileName %>">
@@ -35,7 +33,7 @@
                     <h2> Status: </h2>
                     <input type="text" class="details" id="status" value="<%= profileStatus %>" readonly>
                 </div>
-                <button type="submit" class="welcomeBtn">Save Changes</button>
+                <button type="submit" class="welcomeBtn" style="align-self: center;">Save Changes</button>
             </form>
         </div>
     </div>

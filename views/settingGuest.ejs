@@ -1,7 +1,16 @@
 <%- include('header', { pageTitle: 'Guest Settings | Vacay' }) %>
 
 <div class="profileBackground d-flex justify-content-center align-items-center">
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column align-items-center">
+        <!-- Guest Profile Picture -->
+        <div class="profile-pic-container mb-3">
+            <img src="<%= profilePic %>" alt="user pic" style="width: 150px; height: 150px; border-radius: 50%;">
+        </div>
+        
+        <!-- Guest Name -->
+        <h1 style="font-size: 50px;"><%= profileName %></h1>
+
+        <!-- Settings Options -->
         <form action="/guestView" method="GET">
             <button class="settingBtn">Home</button>
         </form>
