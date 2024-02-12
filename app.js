@@ -1114,9 +1114,19 @@ const searchProperties = async (location, numGuest, checkIn, checkOut) => {
   return availableProperties;
 };
 
-app.get('/settleRefund', async function (req, res) {
-  res.render("settleRefund");
+app.get('/settlerefund', async function(req, res) {
+  try {
+      // Assuming you have logic to fetch refunds from the database
+      const refunds = await Refund.find({}); // Fetch all refunds
+
+      // Render the settleRefund.ejs template with the refunds array
+      res.render('settleRefund', { refunds });
+  } catch (error) {
+      console.error('Error fetching refunds:', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
+
 
 
 // Route for accepting a refund
