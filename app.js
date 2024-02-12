@@ -23,7 +23,7 @@ app.use(
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
 const saltRounds = 10;
 
@@ -47,7 +47,7 @@ const vacayGuestSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   profilePic: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -61,7 +61,7 @@ const vacayHostSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   profilePic: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -70,7 +70,7 @@ const vacayAdminSchema = new mongoose.Schema({
   password: String,
   profilePic: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -191,7 +191,7 @@ app.post("/login", async function (req, res) {
     const foundVacayGuest = await VacayGuest.findOne({ email: emailUse });
 
     if (foundVacayGuest) {
-      console.log('User found in VacayGuest'); // Log where the user was found
+      console.log("User found in VacayGuest"); // Log where the user was found
       user = foundVacayGuest;
       userRole = "guest";
     } else {
@@ -199,7 +199,7 @@ app.post("/login", async function (req, res) {
       const foundVacayHost = await VacayHost.findOne({ email: emailUse });
 
       if (foundVacayHost) {
-        console.log('User found in VacayHost'); // Log where the user was found
+        console.log("User found in VacayHost"); // Log where the user was found
         user = foundVacayHost;
         userRole = "host";
       }
@@ -209,7 +209,7 @@ app.post("/login", async function (req, res) {
       const passwordMatch = await bcrypt.compare(passwordUse, user.password);
 
       if (passwordMatch) {
-        console.log('Password match successful'); // Log successful password match
+        console.log("Password match successful"); // Log successful password match
 
         // Set session for the user
         req.session.user = {
@@ -225,15 +225,15 @@ app.post("/login", async function (req, res) {
           res.redirect("/mainHost");
         }
       } else {
-        console.log('Password match failed'); // Log failed password match
+        console.log("Password match failed"); // Log failed password match
         res.redirect("/login");
       }
     } else {
-      console.log('No user found with this email'); // Log when no user is found
+      console.log("No user found with this email"); // Log when no user is found
       res.redirect("/login");
     }
   } catch (err) {
-    console.error('Error during login:', err); // Log any errors that occur during login
+    console.error("Error during login:", err); // Log any errors that occur during login
     res.redirect("/login");
   }
 });
@@ -630,8 +630,8 @@ app.get("/aboutUs", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -643,8 +643,8 @@ app.get("/help", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -656,8 +656,8 @@ app.get("/policies", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -669,8 +669,8 @@ app.get("/termsCondition", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -682,8 +682,8 @@ app.get("/whyHost", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -695,8 +695,8 @@ app.get("/responsibleHost", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -708,8 +708,8 @@ app.get("/community", function (req, res) {
   let userRole = req.session.user?.type || "unknown"; // Default value
 
   if (userRole === "unknown") {
-    console.log('User role not found in session, redirecting to login page');
-    res.redirect('/login');
+    console.log("User role not found in session, redirecting to login page");
+    res.redirect("/login");
     return; // Stop execution to prevent further code from running
   }
 
@@ -790,24 +790,24 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.post("/editGuestDetails", upload.single('profilePic'), async function (req, res) {
-  try {
-    const guestId = req.session.user && req.session.user.id; // Assuming the guest's ID is stored in session
-    if (!guestId) {
-      return res.status(401).send('User not logged in');
-    }
+app.post("/editGuestDetails", upload.single("profilePic"), async function (req, res) {
+    try {
+      const guestId = req.session.user && req.session.user.id; // Assuming the guest's ID is stored in session
+      if (!guestId) {
+        return res.status(401).send("User not logged in");
+      }
 
-    const updateData = {
-      name: req.body.name,
-      email: req.body.email,
-      phoneNum: req.body.phoneNum,
-    };
+      const updateData = {
+        name: req.body.name,
+        email: req.body.email,
+        phoneNum: req.body.phoneNum,
+      };
 
-    if (req.file) {
-      updateData.profilePic = req.file.path; // Save the path of the uploaded file
-    }
+      if (req.file) {
+        updateData.profilePic = req.file.path; // Save the path of the uploaded file
+      }
 
-    await VacayGuest.findByIdAndUpdate(guestId, updateData);
+      await VacayGuest.findByIdAndUpdate(guestId, updateData);
 
     res.redirect("/profileGuest");
   } catch (err) {
