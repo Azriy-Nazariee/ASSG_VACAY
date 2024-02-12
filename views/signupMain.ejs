@@ -8,6 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        #welcomeMessage {
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    </style>
+    <link rel="icon" href="uploads/vacay.ico" type="image/x-icon">
 </head>
 <body>
     <div class="profileBackground d-flex align-items-center justify-content-center flex-column">
@@ -21,7 +29,7 @@
                         </svg>
                         <h3 class="logoText">VACAY</h3>
                     </div>
-                    <h3 class="text-white m-4">Sign Up to Vacay</h3>
+                    <h3 id="welcomeMessage" class="text-white m-4">Sign Up to Vacay</h3>
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <form action="/guestsignup" method="GET" class="mb-2">
                             <button class="welcomeBtn">Guest</button>
@@ -34,5 +42,14 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            setTimeout(() => {
+                welcomeMessage.style.opacity = 1;
+                welcomeMessage.style.transform = 'translateY(0)';
+            }, 10); // Delay the animation to let it smoothly transition
+        });
+    </script>
 </body>
 </html>
